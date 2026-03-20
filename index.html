@@ -1,429 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paula Zambrano | Golf Operations → Business Strategy | Paris 2028</title>
-  <meta name="description" content="Assistant golf professional and data science student pursuing a master's in Business Strategy and Finance in Paris. NYU Economics and CS coursework, trilingual (EN/ES/FR C1), PGA Level 3 professional.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Paula Zambrano</title>
+  <meta name="description" content="Portfolio of Paula Zambrano — Golf Professional, Data Scientist, Travel Advisor." />
+  <meta property="og:title" content="Portfolio — Paula Zambrano" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://portfolio.paulas.world" />
 
-  <!-- Open Graph / LinkedIn -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://paulas.world">
-  <meta property="og:title" content="Paula Zambrano | Golf Operations → Business Strategy">
-  <meta property="og:description" content="Assistant Golf Professional and Data Science student pursuing a master's in Business Strategy and Finance. Paris 2028. Trilingual. NYU coursework.">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Space+Grotesk:wght@300..700&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --cream:       #FAF7F2;
-      --rose:        #E8C5B5;
-      --sage:        #9DAD91;
-      --linen:       #EDE8E0;
-      --brown:       #5B3B1E;
-      --brown-light: #7a5230;
-      --brown-dark:  #3d2610;
-      --navy:        #2E5090;
-      --bg:          #FAF7F2;
-      --white:       #FDFAF8;
-      --ink:         #2E1A0A;
+      --forest: #2a4226;
+      --linen:  #e6e6da;
+      --pink:   #f05485;
+      --ink:    #1c1c1a;
+      --muted:  #6b6b60;
+      --white:  #ffffff;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
-    body {
-      font-family: 'Space Grotesk', sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      overflow-x: hidden;
-    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Space Grotesk', sans-serif; background: var(--linen); color: var(--ink); overflow-x: hidden; }
 
     /* CURSOR */
-    .cursor {
-      width: 12px; height: 12px; background: var(--rose); border-radius: 50%;
-      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%); transition: width 0.3s, height 0.3s, opacity 0.3s;
-      mix-blend-mode: multiply;
-    }
-    .cursor.grow { width: 40px; height: 40px; opacity: 0.5; }
+    .cursor { width: 12px; height: 12px; background: var(--pink); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s, background .2s; mix-blend-mode: multiply; }
+    .cursor.expand { width: 30px; height: 30px; background: var(--forest); }
 
     /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.5rem 4rem; background: rgba(250,247,242,0.94);
-      backdrop-filter: blur(12px); border-bottom: 1px solid transparent;
-      transition: border-color 0.3s;
-    }
-    nav.scrolled { border-color: var(--linen); }
-    .nav-logo { font-family: 'Krona One', sans-serif; font-size: 1rem; color: var(--ink); text-decoration: none; }
-    .nav-logo span { color: var(--navy); }
-    .nav-links { display: flex; gap: 0.4rem; list-style: none; align-items: center; }
-    .nav-links a, .lang-toggle {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--brown); text-decoration: none; padding: 7px 16px;
-      border-radius: 50px; border: 2px solid transparent; transition: all 0.18s;
-      background: transparent; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
-    }
-    .nav-links a:hover, .lang-toggle:hover { background: var(--brown); color: var(--white); border-color: var(--brown); }
-    .nav-cta { background: transparent; color: var(--brown) !important; border-color: var(--brown) !important; }
-    .nav-cta:hover { background: var(--brown) !important; color: var(--white) !important; border-color: var(--brown) !important; }
-    .lang-toggle.active { background: var(--brown); color: var(--white); border-color: var(--brown); }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: var(--forest); }
+    .nav-logo { font-family: 'Krona One', sans-serif; font-size: 1.1rem; color: var(--linen); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-pill { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.85rem; border-radius: 999px; border: 1.5px solid rgba(230,230,218,0.35); background: transparent; color: rgba(230,230,218,0.6); text-decoration: none; transition: all .2s; }
+    .nav-pill:hover { border-color: rgba(230,230,218,0.7); color: var(--linen); }
+    .nav-pill.active { background: var(--linen); color: var(--forest); border-color: var(--linen); }
 
     /* HERO */
-    .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
-    .hero-left {
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 8rem 3rem 6rem 4rem; position: relative; z-index: 2;
-    }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--brown); color: var(--white);
-      font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-      padding: 6px 14px; border-radius: 50px; width: fit-content; margin-bottom: 2rem;
-    }
-    .hero-title {
-      font-family: 'Krona One', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.08;
-      letter-spacing: -0.02em; color: var(--ink); margin-bottom: 2rem;
-    }
-    .hero-title .hl-navy { color: var(--navy); display: block; }
-    .hero-sub {
-      font-size: 0.95rem; font-weight: 300; color: var(--brown-light);
-      line-height: 1.75; max-width: 420px; margin-bottom: 3rem;
-    }
-    .hero-cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
-    .btn {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 13px 28px; border-radius: 50px; border: 2px solid transparent;
-      cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
-      gap: 8px; transition: all 0.22s;
-    }
-    .btn-brown { background: var(--brown); color: var(--white); border-color: var(--brown); }
-    .btn-brown:hover { background: var(--navy); border-color: var(--navy); }
-    .btn-outline { background: transparent; color: var(--brown); border-color: var(--linen); }
-    .btn-outline:hover { border-color: var(--brown); color: var(--brown); background: rgba(91,59,30,0.05); }
-    .btn-cream { background: var(--cream); color: var(--ink); border-color: var(--linen); }
-    .btn-cream:hover { background: var(--brown); color: var(--white); border-color: var(--brown); }
-    .btn-navy { background: var(--navy); color: var(--white); border-color: var(--navy); }
-    .btn-navy:hover { background: var(--brown); border-color: var(--brown); }
-
-    .hero-right {
-      position: relative; background: var(--linen);
-      display: flex; align-items: center; justify-content: center; overflow: hidden;
-    }
-    .hero-orb {
-      width: 380px; height: 380px; border-radius: 50%; background: var(--cream);
-      position: relative; display: flex; align-items: center; justify-content: center;
-      animation: float 6s ease-in-out infinite;
-    }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-    .hero-orb::before {
-      content: ''; position: absolute; inset: -30px; border-radius: 50%;
-      border: 1px solid var(--rose); opacity: 0.7; animation: spin 20s linear infinite;
-    }
-    .hero-orb::after {
-      content: ''; position: absolute; inset: -65px; border-radius: 50%;
-      border: 1px dashed var(--navy); opacity: 0.25; animation: spin 35s linear infinite reverse;
-    }
-    .hero-orb-inner { text-align: center; padding: 2rem; }
-    .hero-orb-logo { font-family: 'Krona One', sans-serif; font-size: 1.2rem; color: var(--ink); line-height: 1.4; }
-    .hero-orb-logo span { color: var(--navy); }
-    .hero-orb-tagline {
-      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--brown-light); margin-top: 8px;
-    }
-    .hero-tag {
-      position: absolute; font-size: 0.68rem; font-weight: 700;
-      letter-spacing: 0.15em; text-transform: uppercase; color: var(--brown);
-      background: var(--white); padding: 0.6rem 1.2rem; border: 1px solid var(--linen); border-radius: 2px;
-    }
-    .hero-tag-1 { top: 16%; right: 10%; }
-    .hero-tag-2 { bottom: 24%; left: 8%; }
-    .hero-tag-3 { top: 54%; right: 6%; }
+    .hero { min-height: 100vh; background: var(--forest); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 8rem 2rem 6rem; position: relative; overflow: hidden; }
+    .hero::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(240,84,133,0.09) 0%, transparent 70%); pointer-events:none; }
+    .hero::after { content:''; position:absolute; inset:0; background-image: linear-gradient(rgba(230,230,218,0.03) 1px,transparent 1px), linear-gradient(90deg,rgba(230,230,218,0.03) 1px,transparent 1px); background-size: 60px 60px; pointer-events:none; }
+    .hero-eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--pink); margin-bottom: 1.5rem; position: relative; z-index: 1; }
+    .hero-name { font-family: 'Krona One', sans-serif; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 400; color: var(--linen); line-height: 1; letter-spacing: -0.02em; margin-bottom: 2rem; position: relative; z-index: 1; }
+    .hero-name em { color: var(--pink); font-style: normal; }
+    .hero-tagline { font-size: clamp(0.82rem, 1.6vw, 0.98rem); font-weight: 300; letter-spacing: 0.1em; color: rgba(230,230,218,0.6); margin-bottom: 2.5rem; position: relative; z-index: 1; }
+    .hero-pills { display: flex; gap: 0.65rem; flex-wrap: wrap; justify-content: center; margin-bottom: 4.5rem; position: relative; z-index: 1; }
+    .hero-pill { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; padding: 0.4rem 1rem; border-radius: 999px; border: 1.5px solid rgba(230,230,218,0.2); color: rgba(230,230,218,0.65); }
+    .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: rgba(230,230,218,0.35); font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; animation: bob 2.2s ease-in-out infinite; }
+    .hero-scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(230,230,218,0.35), transparent); }
+    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(7px)} }
 
     /* MARQUEE */
-    .marquee-section {
-      background: var(--navy); padding: 1.2rem 0;
-      overflow: hidden; white-space: nowrap;
-      transform: rotate(-1deg) scaleX(1.04); margin: 12px 0;
-    }
-    .marquee-track { display: inline-flex; animation: marquee 28s linear infinite; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .marquee-item {
-      font-family: 'Krona One', sans-serif; font-size: 0.68rem;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: rgba(250,247,242,0.32); padding: 0 2rem;
-    }
-    .marquee-item.a { color: var(--rose); }
-    .marquee-dot { color: var(--rose); padding: 0 0.4rem; opacity: 0.55; }
+    .marquee-wrap { overflow: hidden; background: var(--pink); padding: 0.65rem 0; }
+    .marquee-track { display: flex; white-space: nowrap; animation: marquee 30s linear infinite; }
+    .marquee-item { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); padding: 0 2rem; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-    /* PORTFOLIO */
-    .portfolio { padding: 8rem 4rem; }
-    .section-header {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      margin-bottom: 4rem; flex-wrap: wrap; gap: 2rem;
-    }
-    .section-label {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--navy); margin-bottom: 0.75rem;
-    }
-    .section-title {
-      font-family: 'Krona One', sans-serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      line-height: 1.1; letter-spacing: -0.02em; color: var(--ink);
-    }
-    .section-title span { color: var(--navy); }
-    .section-num {
-      font-family: 'Krona One', sans-serif;
-      font-size: 5rem; color: var(--linen); line-height: 1;
-    }
-
-    .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--brown); }
-    .project-card {
-      background: var(--bg); padding: 3rem 2.5rem;
-      position: relative; overflow: hidden; cursor: default;
-      transition: background 0.35s; min-height: 420px;
-      display: flex; flex-direction: column; justify-content: space-between;
-    }
-    .project-card:hover { background: var(--cream); }
-    .project-num {
-      font-family: 'Krona One', sans-serif; font-size: 3.5rem;
-      color: var(--linen); margin-bottom: 1.5rem; line-height: 1; display: block;
-    }
-    .project-name {
-      font-family: 'Krona One', sans-serif; font-size: 1.1rem;
-      line-height: 1.3; margin-bottom: 1rem; color: var(--ink);
-    }
-    .project-desc {
-      font-size: 0.85rem; line-height: 1.75; color: var(--brown-light);
-      margin-bottom: 1.5rem; flex-grow: 1;
-    }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
-    .project-tag {
-      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--navy); border: 1px solid var(--sage); padding: 3px 10px; border-radius: 50px;
-    }
-    .project-links { display: flex; flex-direction: column; gap: 0.5rem; }
-    .project-link {
-      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--brown); text-decoration: none;
-      transition: color 0.2s;
-    }
-    .project-link:hover { color: var(--navy); }
-    .project-link-secondary { opacity: 0.6; font-size: 0.7rem; }
-
-    /* ABOUT */
-    .about {
-      display: grid; grid-template-columns: 1fr 1.2fr;
-      gap: 4rem; padding: 8rem 4rem; background: var(--white);
-    }
-    .about-left { display: flex; flex-direction: column; gap: 2rem; }
-    .about-img-box {
-      aspect-ratio: 1; background: var(--cream); border-radius: 4px;
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-    .about-img-letter {
-      font-family: 'Krona One', sans-serif; font-size: 8rem;
-      color: var(--rose); opacity: 0.4;
-    }
-    .about-badge {
-      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
-      text-align: center; color: var(--brown-light); padding: 1rem;
-      background: var(--bg); border-radius: 4px; line-height: 1.6;
-    }
-    .about-right { display: flex; flex-direction: column; gap: 1.5rem; }
-    .about-tag {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--navy);
-    }
-    .about-title {
-      font-family: 'Krona One', sans-serif; font-size: 2.5rem;
-      line-height: 1.2; color: var(--ink);
-    }
-    .about-title span { color: var(--navy); }
-    .about-body {
-      font-size: 0.95rem; line-height: 1.85; color: var(--brown-light);
-    }
-    .about-stats {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 2rem; margin: 2rem 0; padding: 2rem 0;
-      border-top: 1px solid var(--linen); border-bottom: 1px solid var(--linen);
-    }
-    .stat-num {
-      font-family: 'Krona One', sans-serif; font-size: 2rem;
-      color: var(--navy); display: block; margin-bottom: 0.5rem;
-    }
-    .stat-label {
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--brown-light);
-    }
-
-    /* SKILLS */
-    .skills { padding: 8rem 4rem; background: var(--cream); }
-    .skills-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 3rem; margin-top: 4rem;
-    }
-    .skill-category h3 {
-      font-family: 'Krona One', sans-serif; font-size: 1rem;
-      margin-bottom: 1.5rem; color: var(--brown);
-    }
-    .skill-category ul {
-      list-style: none; line-height: 2.3; color: var(--brown-light);
-      font-size: 0.88rem;
-    }
-    .skill-category li::before {
-      content: '→ '; color: var(--navy); font-weight: 700;
-    }
-
-    /* BLOG */
-    .blog { padding: 8rem 4rem; background: var(--bg); }
-    .blog-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 2rem; margin-top: 3rem;
-    }
-    .blog-card {
-      background: var(--white); padding: 2.5rem; border-radius: 4px;
-      transition: transform 0.3s; cursor: default;
-      border: 1px solid var(--linen);
-    }
-    .blog-card:hover { transform: translateY(-4px); }
-    .blog-meta {
-      font-size: 0.7rem; color: var(--brown-light);
-      margin-bottom: 1rem; letter-spacing: 0.1em; text-transform: uppercase;
-    }
-    .blog-title {
-      font-family: 'Krona One', sans-serif; font-size: 1.2rem;
-      margin-bottom: 1rem; line-height: 1.35; color: var(--ink);
-    }
-    .blog-title span { color: var(--navy); }
-    .blog-excerpt {
-      font-size: 0.88rem; line-height: 1.75; color: var(--brown-light);
-      margin-bottom: 1.5rem;
-    }
-
-    /* CONTACT */
-    .contact-section { padding: 8rem 4rem; background: var(--white); }
-    .contact-box {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 4rem; max-width: 1200px; margin: 0 auto;
-    }
-    .contact-left { display: flex; flex-direction: column; justify-content: space-between; }
-    .contact-heading {
-      font-family: 'Krona One', sans-serif; font-size: 2.5rem;
-      line-height: 1.2; margin-bottom: 1.5rem; color: var(--ink);
-    }
-    .contact-tagline {
-      font-size: 1rem; line-height: 1.75; color: var(--brown-light);
-      margin-bottom: 3rem;
-    }
-    .contact-details { display: flex; flex-direction: column; gap: 1.5rem; }
-    .contact-detail-label {
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--navy); margin-bottom: 0.3rem;
-    }
-    .contact-detail-value { font-size: 0.95rem; color: var(--brown-light); }
-    .contact-detail-value a { color: var(--brown); text-decoration: none; }
-    .contact-detail-value a:hover { color: var(--navy); }
-    .contact-email-bottom {
-      font-family: 'Krona One', sans-serif; font-size: 1.1rem;
-      color: var(--ink); margin-top: 3rem;
-    }
-    .contact-right { background: var(--bg); padding: 3rem; border-radius: 4px; }
-    .form-title {
-      font-family: 'Krona One', sans-serif; font-size: 1.2rem;
-      margin-bottom: 2rem; color: var(--ink);
-    }
-    .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .form-group { display: flex; flex-direction: column; }
-    .form-label {
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--brown); margin-bottom: 0.5rem;
-    }
-    .form-input, .form-select, .form-textarea {
-      font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem;
-      padding: 0.8rem 1rem; border: 2px solid var(--linen);
-      border-radius: 4px; background: var(--white); color: var(--ink);
-      transition: border-color 0.2s;
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      outline: none; border-color: var(--navy);
-    }
-    .form-textarea { min-height: 120px; resize: vertical; }
-    .form-submit-row {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-top: 1rem; flex-wrap: wrap; gap: 1rem;
-    }
-    .form-note { font-size: 0.7rem; color: var(--brown-light); letter-spacing: 0.05em; }
-
-    /* FOOTER */
-    footer { background: var(--brown); color: var(--cream); padding: 4rem; }
-    .footer-top {
-      display: flex; justify-content: space-between; align-items: center;
-      padding-bottom: 2rem; border-bottom: 1px solid rgba(250,247,242,0.18);
-      margin-bottom: 2rem;
-    }
-    .footer-logo { font-family: 'Krona One', sans-serif; font-size: 1.2rem; }
-    .footer-logo span { color: var(--rose); }
-    .footer-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
-    .footer-links a {
-      color: var(--cream); text-decoration: none; font-size: 0.85rem;
-      opacity: 0.65; transition: opacity 0.2s;
-    }
-    .footer-links a:hover { opacity: 1; }
-    .footer-bottom {
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.78rem; color: rgba(250,247,242,0.45);
-    }
-    .footer-copy span { color: var(--rose); }
-
-    /* FADE UP ANIMATION */
-    .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.65s; }
+    /* SHARED */
+    .section-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.9rem; }
+    .section-heading { font-family: 'Krona One', sans-serif; font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 400; color: var(--forest); line-height: 1.1; }
+    .fade-up { opacity: 0; transform: translateY(26px); transition: opacity .72s ease, transform .72s ease; }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
+    /* INTRO */
+    .intro-section { padding: 6rem 3rem; max-width: 900px; margin: 0 auto; }
+    .intro-inner { display: grid; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; }
+    .intro-left h2 { font-family: 'Krona One', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--forest); line-height: 1.1; margin-top: 0.6rem; }
+    .intro-left h2 em { color: var(--pink); font-style: normal; }
+    .intro-right p { font-size: 0.92rem; line-height: 1.85; color: var(--muted); margin-bottom: 1.1rem; }
+    .intro-right p:last-child { margin-bottom: 0; }
+
+    /* PORTFOLIO GRID */
+    .portfolio-section { background: var(--forest); padding: 6rem 3rem; }
+    .portfolio-inner { max-width: 1100px; margin: 0 auto; }
+    .portfolio-heading { font-family: 'Krona One', sans-serif; font-size: clamp(1.8rem,4vw,2.8rem); color: var(--linen); margin-bottom: 3rem; line-height: 1.1; }
+    .portfolio-heading em { color: var(--pink); font-style: normal; }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .portfolio-card { background: rgba(230,230,218,0.06); border: 1px solid rgba(230,230,218,0.12); border-radius: 1.5rem; padding: 2rem; display: flex; flex-direction: column; transition: background .25s, border-color .25s; }
+    .portfolio-card:hover { background: rgba(230,230,218,0.1); border-color: rgba(240,84,133,0.35); }
+    .portfolio-card.wide { grid-column: span 2; }
+    .card-num { font-family: 'Krona One', sans-serif; font-size: 3.5rem; color: rgba(240,84,133,0.18); line-height: 1; margin-bottom: 1.25rem; }
+    .card-tag { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.5rem; }
+    .card-title { font-family: 'Krona One', sans-serif; font-size: 1.1rem; color: var(--linen); margin-bottom: 0.75rem; line-height: 1.25; }
+    .portfolio-card.wide .card-title { font-size: 1.35rem; }
+    .card-desc { font-size: 0.82rem; line-height: 1.7; color: rgba(230,230,218,0.55); flex: 1; }
+    .card-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.5rem; }
+    .card-tool { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.7rem; border-radius: 999px; border: 1px solid rgba(230,230,218,0.18); color: rgba(230,230,218,0.5); }
+    .card-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); text-decoration: none; transition: gap .2s; }
+    .card-link:hover { gap: 0.7rem; }
+
+    /* DIVIDER */
+    .divider-section { padding: 6rem 3rem; max-width: 900px; margin: 0 auto; }
+    .divider-inner { display: grid; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; }
+    .divider-left h2 { font-family: 'Krona One', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.4rem); color: var(--forest); line-height: 1.1; margin-top: 0.6rem; }
+    .divider-left h2 em { color: var(--pink); font-style: normal; }
+    .divider-right p { font-size: 0.92rem; line-height: 1.85; color: var(--muted); margin-bottom: 1.1rem; }
+    .divider-right a { color: var(--forest); font-weight: 600; }
+
+    /* CONTACT CALLOUT */
+    .contact-callout { background: var(--pink); padding: 4rem 3rem; text-align: center; }
+    .contact-callout h2 { font-family: 'Krona One', sans-serif; font-size: clamp(1.6rem,4vw,2.6rem); color: var(--white); margin-bottom: 0.75rem; }
+    .contact-callout p { font-size: 0.9rem; color: rgba(255,255,255,0.8); max-width: 480px; margin: 0 auto 2rem; line-height: 1.7; }
+    .contact-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.85rem 2.2rem; border-radius: 999px; background: var(--white); color: var(--pink); text-decoration: none; transition: background .2s, color .2s; }
+    .contact-btn:hover { background: var(--forest); color: var(--white); }
+
+    /* FOOTER */
+    footer { background: var(--forest); padding: 1.75rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+    .footer-logo { font-family: 'Krona One', sans-serif; font-size: 0.9rem; color: rgba(230,230,218,0.55); }
+    .footer-copy { font-size: 0.72rem; color: rgba(230,230,218,0.45); }
+    .footer-note { font-size: 0.68rem; color: rgba(230,230,218,0.3); letter-spacing: 0.05em; }
+
     /* RESPONSIVE */
-    @media (max-width: 968px) {
+    @media (max-width: 900px) {
+      .portfolio-grid { grid-template-columns: 1fr 1fr; }
+      .portfolio-card.wide { grid-column: span 2; }
+    }
+    @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 0.15rem; }
-      .nav-links a, .lang-toggle { font-size: 10px; padding: 6px 10px; }
-
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-left { padding: 6rem 2rem 4rem; }
-      .hero-right { min-height: 380px; }
-      .hero-orb { width: 260px; height: 260px; }
-
-      .portfolio { padding: 4rem 2rem; }
+      .intro-inner, .divider-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .intro-section, .divider-section { padding: 4rem 1.5rem; }
+      .portfolio-section { padding: 4rem 1.5rem; }
+      .contact-callout { padding: 3rem 1.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 600px) {
       .portfolio-grid { grid-template-columns: 1fr; }
-
-      .about { grid-template-columns: 1fr; padding: 4rem 2rem; }
-      .about-stats { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-
-      .skills { padding: 4rem 2rem; }
-      .skills-grid { grid-template-columns: 1fr; gap: 2rem; }
-
-      .blog { padding: 4rem 2rem; }
-      .blog-grid { grid-template-columns: 1fr; }
-
-      .contact-section { padding: 4rem 2rem; }
-      .contact-box { grid-template-columns: 1fr; }
-
-      footer { padding: 3rem 1.5rem; }
-      .footer-top { flex-direction: column; gap: 2rem; text-align: center; }
-      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .portfolio-card.wide { grid-column: span 1; }
     }
   </style>
 </head>
@@ -431,693 +137,214 @@
   <div class="cursor" id="cursor"></div>
   <div id="root"></div>
 
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useEffect, useRef } = React;
 
-    // ─── TRANSLATIONS ────────────────────────────────────────────────────────────
-    const translations = {
-      en: {
-        nav: {
-          portfolio: "Portfolio",
-          about: "About",
-          blog: "Blog",
-          cv: "CV",
-          contact: "Contact"
-        },
-        hero: {
-          eyebrow: "✦ Los Cabos → Paris 2028",
-          title: "Golf Operations →",
-          titleHighlight: "Business Strategy.",
-          subtitle: "Assistant Golf Professional and Data Science student at UVM (graduating September 2027), pursuing a master's in Business Strategy and Finance in Paris. September 2028 entry. Trilingual. PGA Level 3.",
-          cta1: "View Portfolio →",
-          cta2: "About Me"
-        },
-        marquee: [
-          "BUSINESS STRATEGY", "FINANCIAL ANALYSIS", "STRATEGY CONSULTING",
-          "PYTHON", "EXCEL", "BRAND STRATEGY", "LUXURY SECTOR",
-          "PARIS 2028", "GOLF OPERATIONS", "LUXURY HOSPITALITY",
-          "TRILINGUAL", "MANAGEMENT CONSULTING"
-        ],
-        portfolio: {
-          label: "Featured Work",
-          title: "Strategy & Finance",
-          titleHighlight: "Portfolio",
-          viewGithub: "View on GitHub →",
-          viewReport: "Read Full Report",
-          projects: [
-            {
-              num: "01",
-              name: "Golf Club Financial Analysis",
-              desc: "Revenue optimization model for Puerto Los Cabos Golf Club. Analyzed pricing strategy, cost structure, and revenue leakage across three years of transaction data using Python and Excel. Delivered strategic recommendations for margin improvement and operational efficiency.",
-              tags: ["Python", "Excel", "Financial Modeling", "Revenue Strategy"],
-              github: "#",
-              report: "#"
-            },
-            {
-              num: "02",
-              name: "Luxury Fashion Market Analysis",
-              desc: "Comprehensive industry analysis using The Business of Fashion State of Fashion 2024 report. Examined market trends, consumer behavior shifts, and competitive positioning of LVMH, Kering, and Hermes. Created interactive Tableau dashboard with strategic recommendations for luxury brand growth in emerging markets and digital channels.",
-              tags: ["Python", "Tableau", "Strategic Analysis", "Luxury Sector"],
-              github: "#",
-              report: "#"
-            },
-            {
-              num: "03",
-              name: "The New Luxury Consumer: Sports, Access & Experience",
-              desc: "A strategic market analysis report examining the convergence of luxury brands and premium sports — golf, F1, and tennis. Analyzes how the modern luxury consumer is shifting spend from material goods toward curated experiences, access, and time. Covers brand strategy (LVMH, Kering, Rolex), sponsorship growth trends, consumer psychographics, and where the white space lies for luxury houses entering the sports vertical.",
-              tags: ["Python", "Tableau", "Market Analysis", "Brand Strategy"],
-              github: "#",
-              report: "#"
-            }
-          ]
-        },
-        about: {
-          badge: "Assistant Golf Professional · Data Science Student · Strategy Consulting Candidate",
-          tag: "✦ About Paula",
-          title: "Hi, I'm",
-          titleHighlight: "Paula.",
-          body1: "I'm an assistant golf professional building toward a director-level career in luxury club operations. I completed two years of Economics and Computer Science at NYU before transferring to pursue a Data Science degree at Universidad del Valle de Mexico, graduating September 2027. I work at Puerto Los Cabos Golf Club in Mexico — one of Latin America's most prestigious properties — developing expertise in revenue strategy, member experience, and high-net-worth client relations. I am trilingual in English, Spanish, and French (C1), and a PGA of America Level 3 professional.",
-          body2: "In September 2028, I want to pursue a master's program in Business Strategy or Management in Paris, targeting a career in management consulting (McKinsey, BCG, Bain) or luxury brand management (LVMH, Kering). My path — NYU coursework, data science degree, hands-on luxury golf operations, Paris master's — is a deliberate strategy: build genuine analytical depth and operational experience before entering the top tier of business.",
-          stats: [
-            { num: "+1", label: "Golf Handicap" },
-            { num: "3", label: "Languages" },
-            { num: "2028", label: "Master's Program Entry Planned" }
-          ],
-          cta1: "Download CV (PDF)",
-          cta2: "Get in Touch"
-        },
-        skills: {
-          label: "Capabilities",
-          title: "Skills &",
-          titleHighlight: "Tools",
-          categories: [
-            {
-              title: "Technical",
-              skills: [
-                "Python (pandas, scikit-learn, matplotlib)",
-                "SQL and Database Management",
-                "Excel and Financial Modeling",
-                "Data Visualization",
-                "Git and Version Control"
-              ]
-            },
-            {
-              title: "Business",
-              skills: [
-                "Strategic Planning",
-                "Operations Management",
-                "Luxury Hospitality",
-                "Client Relations",
-                "Revenue Optimization"
-              ]
-            },
-            {
-              title: "Languages and Certifications",
-              skills: [
-                "English (Native)",
-                "Spanish (Native)",
-                "French (C1)",
-                "PGA of America Level 3",
-                "GMAT (Planned July 2026)",
-                "DELF B2 (Planned June 2026)"
-              ]
-            }
-          ]
-        },
-        blog: {
-          label: "Thinking Out Loud",
-          title: "Blog",
-          titleHighlight: "and Essays",
-          comingSoon: "Coming Soon",
-          posts: [
-            {
-              date: "Coming May 2026",
-              readTime: "8 min read",
-              title: "From Fairways to Finance:",
-              titleHighlight: "Why Golf Operations Prepares You for Consulting",
-              excerpt: "Managing a luxury golf club demands the same core skills as strategy consulting: client management, operational efficiency, data-driven decision-making, and stakeholder alignment under pressure. Here is what running a world-class club taught me about the business of consulting."
-            },
-            {
-              date: "Coming June 2026",
-              readTime: "6 min read",
-              title: "Luxury Brand Management:",
-              titleHighlight: "Lessons from High-End Golf Clubs",
-              excerpt: "The most exclusive golf clubs in the world operate on the same principles as LVMH and Kering — aspirational positioning, member selectivity, experience obsession, and relentless brand coherence. Here is the strategic overlap, and what it means for careers in luxury."
-            }
-          ],
-          cta: "More Coming Soon"
-        },
-        contact: {
-          heading: "Let's connect.",
-          tagline: "Whether you are an admissions advisor, fellow applicant, alumni, or potential collaborator — I would love to hear from you.",
-          details: [
-            { label: "Email", value: "paulazmbrn@outlook.com" },
-            { label: "Based in", value: "Los Cabos, Baja California Sur" },
-            { label: "Available for", value: "Consulting projects, collaborations, speaking" }
-          ],
-          formTitle: "Send a message ✦",
-          form: {
-            firstName: "First Name",
-            firstNamePlaceholder: "Your first name",
-            lastName: "Last Name",
-            lastNamePlaceholder: "Your last name",
-            email: "Email",
-            emailPlaceholder: "your@email.com",
-            interest: "I am interested in...",
-            interestOptions: [
-              "Choose one",
-              "Collaboration or Project",
-              "Speaking or Consulting",
-              "Master's Program Questions",
-              "Just Saying Hello"
-            ],
-            message: "Message",
-            messagePlaceholder: "Tell me a little about what you have in mind...",
-            note: "I will get back to you within 48 hours ✦",
-            submit: "Send it →"
-          }
-        },
-        footer: {
-          links: ["Portfolio", "About", "Blog", "Contact"],
-          anchors: ["portfolio", "about", "blog", "contact"],
-          copy: "paulas.world · All rights reserved.",
-          made: "Crafted with care in Los Cabos, Mexico"
-        }
+    const marqueeItems = [
+      "GOLF OPERATIONS","DATA SCIENCE","PYTHON","TRAVEL ADVISORY","EN·ES·FR",
+      "TOURNAMENT MANAGEMENT","TRACKMAN","PLAYER DEVELOPMENT","ANALYTICS","PROJECTS",
+      "GOLF OPERATIONS","DATA SCIENCE","PYTHON","TRAVEL ADVISORY","EN·ES·FR",
+      "TOURNAMENT MANAGEMENT","TRACKMAN","PLAYER DEVELOPMENT","ANALYTICS","PROJECTS",
+    ];
+
+    const projects = [
+      {
+        num: "01",
+        tag: "Data Science",
+        title: "Project Title",
+        desc: "A short description of this project will go here — what it does, what problem it solves, and what you learned from it.",
+        tools: ["Python", "Pandas", "Matplotlib"],
+        link: "#",
+        wide: true
       },
+      {
+        num: "02",
+        tag: "Golf Operations",
+        title: "Project Title",
+        desc: "A short description of this project will go here.",
+        tools: ["Excel", "Analytics"],
+        link: "#",
+        wide: false
+      },
+      {
+        num: "03",
+        tag: "Travel",
+        title: "Project Title",
+        desc: "A short description of this project will go here.",
+        tools: ["Research", "Planning"],
+        link: "#",
+        wide: false
+      },
+      {
+        num: "04",
+        tag: "Data Science",
+        title: "Project Title",
+        desc: "A short description of this project will go here.",
+        tools: ["Python", "SQL"],
+        link: "#",
+        wide: false
+      },
+      {
+        num: "05",
+        tag: "Writing",
+        title: "The New Par",
+        desc: "A golf publication covering the business of golf, course operations, player development, and the evolving industry landscape.",
+        tools: ["Substack", "Editorial"],
+        link: "https://thenewpar.substack.com",
+        wide: false
+      },
+    ];
 
-      fr: {
-        nav: {
-          portfolio: "Portfolio",
-          about: "A propos",
-          blog: "Blog",
-          cv: "CV",
-          contact: "Contact"
-        },
-        hero: {
-          eyebrow: "✦ Los Cabos → Paris 2028",
-          title: "Operations Golf →",
-          titleHighlight: "Strategie d'Entreprise.",
-          subtitle: "Professionnelle Golf et etudiante en Data Science a l'UVM (diplôme prevu septembre 2027), je prepare un master en Strategie et Finance a Paris. Rentree septembre 2028. Trilingue. PGA Niveau 3.",
-          cta1: "Voir le Portfolio →",
-          cta2: "A propos"
-        },
-        marquee: [
-          "STRATEGIE D'ENTREPRISE", "ANALYSE FINANCIERE", "CONSEIL EN STRATEGIE",
-          "PYTHON", "EXCEL", "STRATEGIE DE MARQUE", "SECTEUR DU LUXE",
-          "PARIS 2028", "OPERATIONS GOLF", "HOSPITALITE DE LUXE",
-          "TRILINGUE", "CONSEIL EN MANAGEMENT"
-        ],
-        portfolio: {
-          label: "Projets Selectionnes",
-          title: "Strategie et Finance",
-          titleHighlight: "Portfolio",
-          viewGithub: "Voir sur GitHub →",
-          viewReport: "Lire le rapport complet",
-          projects: [
-            {
-              num: "01",
-              name: "Analyse Financiere du Club de Golf",
-              desc: "Modele d'optimisation des revenus pour Puerto Los Cabos Golf Club. Analyse de la strategie tarifaire, de la structure de couts et des pertes de revenus sur trois ans de donnees transactionnelles en Python et Excel. Recommandations strategiques pour l'amelioration des marges et de l'efficacite operationnelle.",
-              tags: ["Python", "Excel", "Modelisation Financiere", "Strategie Revenus"],
-              github: "#",
-              report: "#"
-            },
-            {
-              num: "02",
-              name: "Analyse du Marche de la Mode de Luxe",
-              desc: "Analyse sectorielle complete basee sur le rapport State of Fashion 2024 de The Business of Fashion. Examen des tendances du marche, evolution du comportement des consommateurs, et positionnement concurrentiel de LVMH, Kering et Hermes. Creation d'un tableau de bord interactif Tableau avec recommandations strategiques pour la croissance des marques de luxe dans les marches emergents et les canaux digitaux.",
-              tags: ["Python", "Tableau", "Analyse Strategique", "Secteur du Luxe"],
-              github: "#",
-              report: "#"
-            },
-            {
-              num: "03",
-              name: "Le Nouveau Consommateur de Luxe : Sport, Acces et Experience",
-              desc: "Rapport d'analyse strategique examinant la convergence des marques de luxe et des sports premium — golf, F1 et tennis. Analyse comment le consommateur de luxe moderne deplace ses depenses des biens materiels vers des experiences curated, l'acces et le temps. Couvre la strategie de marque (LVMH, Kering, Rolex), les tendances de croissance du sponsoring, les psychographies consommateurs, et les espaces blancs pour les maisons de luxe entrant dans le vertical sportif.",
-              tags: ["Python", "Tableau", "Analyse de Marche", "Strategie de Marque"],
-              github: "#",
-              report: "#"
-            }
-          ]
-        },
-        about: {
-          badge: "Professionnelle Golf · Etudiante en Data Science · Candidate Conseil en Strategie",
-          tag: "✦ A propos de Paula",
-          title: "Bonjour, je suis",
-          titleHighlight: "Paula.",
-          body1: "Professionnelle golf en devenir, je construit une carriere vers la direction d'un club de luxe. J'ai effectue deux ans d'Economie et d'Informatique a NYU avant de me transferer a l'Universidad del Valle de Mexico pour un diplôme en Data Science, que j'obtiendrai en septembre 2027. Je travaille au Puerto Los Cabos Golf Club au Mexique — l'une des proprietes les plus prestigieuses d'Amerique latine — en developpant mon expertise en strategie de revenus, experience membre et relations clients haut de gamme. Trilingue anglais, espagnol et francais (C1), et professionnelle PGA de niveau 3.",
-          body2: "En septembre 2028, je veux poursuivre un master en Strategie d'Entreprise ou Management a Paris, afin de viser une carriere en conseil en management (McKinsey, BCG, Bain) ou en gestion de marques de luxe (LVMH, Kering). Mon parcours — cursus NYU, diplôme en data science, operations golf de luxe, master parisien — est une strategie deliberee : construire une vraie profondeur analytique et une experience operationnelle avant d'integrer le conseil aux entreprises.",
-          stats: [
-            { num: "+1", label: "Handicap Golf" },
-            { num: "3", label: "Langues" },
-            { num: "2028", label: "Entree Master Prevue" }
-          ],
-          cta1: "Telecharger CV (PDF)",
-          cta2: "Me contacter"
-        },
-        skills: {
-          label: "Competences",
-          title: "Competences et",
-          titleHighlight: "Outils",
-          categories: [
-            {
-              title: "Technique",
-              skills: [
-                "Python (pandas, scikit-learn, matplotlib)",
-                "SQL et gestion de bases de donnees",
-                "Excel et modelisation financiere",
-                "Visualisation de donnees",
-                "Git et controle de version"
-              ]
-            },
-            {
-              title: "Business",
-              skills: [
-                "Planification strategique",
-                "Gestion des operations",
-                "Hospitalite de luxe",
-                "Relations clients",
-                "Optimisation des revenus"
-              ]
-            },
-            {
-              title: "Langues et Certifications",
-              skills: [
-                "Anglais (Natif)",
-                "Espagnol (Natif)",
-                "Francais (C1)",
-                "PGA of America Level 3",
-                "GMAT (Prevu juillet 2026)",
-                "DELF B2 (Prevu juin 2026)"
-              ]
-            }
-          ]
-        },
-        blog: {
-          label: "Reflexions",
-          title: "Blog",
-          titleHighlight: "et Essais",
-          comingSoon: "Bientot",
-          posts: [
-            {
-              date: "Prochainement mai 2026",
-              readTime: "8 min de lecture",
-              title: "Des Fairways a la Finance :",
-              titleHighlight: "Pourquoi les Operations Golf Preparent au Conseil",
-              excerpt: "Gerer un club de golf de luxe exige les memes competences fondamentales que le conseil en strategie : gestion de clients, efficacite operationnelle, prise de decision basee sur les donnees et alignement des parties prenantes sous pression. Voici ce que diriger un club de classe mondiale m'a appris sur le conseil aux entreprises."
-            },
-            {
-              date: "Prochainement juin 2026",
-              readTime: "6 min de lecture",
-              title: "Management de Marques de Luxe :",
-              titleHighlight: "Lecons des Clubs de Golf Haut de Gamme",
-              excerpt: "Les clubs de golf les plus exclusifs au monde fonctionnent sur les memes principes que LVMH et Kering — positionnement aspirationnel, selectivite des membres, obsession de l'experience et coherence de marque sans compromis. Voici le chevauchement strategique, et ce qu'il implique pour les carrieres dans le luxe."
-            }
-          ],
-          cta: "Plus Bientot"
-        },
-        contact: {
-          heading: "Entrons en contact.",
-          tagline: "Que vous soyez conseiller d'admission, candidat, alumni ou collaborateur potentiel, je serais ravie d'echanger avec vous.",
-          details: [
-            { label: "Email", value: "paulazmbrn@outlook.com" },
-            { label: "Basee a", value: "Los Cabos, Basse-Californie du Sud" },
-            { label: "Disponible pour", value: "Projets de conseil, collaborations, conferences" }
-          ],
-          formTitle: "Envoyer un message ✦",
-          form: {
-            firstName: "Prenom",
-            firstNamePlaceholder: "Votre prenom",
-            lastName: "Nom",
-            lastNamePlaceholder: "Votre nom",
-            email: "Email",
-            emailPlaceholder: "votre@email.com",
-            interest: "Je suis interesse(e) par...",
-            interestOptions: [
-              "Choisir une option",
-              "Collaboration ou projet",
-              "Conference ou conseil",
-              "Questions sur les masters",
-              "Juste dire bonjour"
-            ],
-            message: "Message",
-            messagePlaceholder: "Parlez-moi un peu de ce que vous avez en tete...",
-            note: "Je vous repondrai sous 48h ✦",
-            submit: "Envoyer →"
-          }
-        },
-        footer: {
-          links: ["Portfolio", "A propos", "Blog", "Contact"],
-          anchors: ["portfolio", "about", "blog", "contact"],
-          copy: "paulas.world · Tous droits reserves.",
-          made: "Concu avec soin a Los Cabos, Mexique"
-        }
-      }
-    };
+    function useFadeUp(delay) {
+      const ref = useRef(null);
+      useEffect(() => {
+        const el = ref.current; if (!el) return;
+        const obs = new IntersectionObserver(([e]) => {
+          if (e.isIntersecting) { setTimeout(() => el.classList.add('visible'), delay || 0); obs.disconnect(); }
+        }, { threshold: 0.1 });
+        obs.observe(el);
+        return () => obs.disconnect();
+      }, []);
+      return ref;
+    }
 
-    // ─── APP COMPONENT ────────────────────────────────────────────────────────────
     function App() {
-      const [lang, setLang] = useState('en');
-      const [scrolled, setScrolled] = useState(false);
-      const t = translations[lang];
+      const introRef    = useFadeUp(0);
+      const portfolioRef = useFadeUp(0);
+      const dividerRef  = useFadeUp(0);
+      const contactRef  = useFadeUp(0);
 
       useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 40);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-      }, []);
-
-      useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-              setTimeout(() => entry.target.classList.add('visible'), i * 100);
-            }
-          });
-        }, { threshold: 0.08 });
-
-        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-        // Custom cursor
-        const cursor = document.getElementById('cursor');
-        let mouseX = 0, mouseY = 0, curX = 0, curY = 0;
-        document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-
-        function animateCursor() {
-          curX += (mouseX - curX) * 0.15;
-          curY += (mouseY - curY) * 0.15;
-          cursor.style.left = curX + 'px';
-          cursor.style.top  = curY + 'px';
-          requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        document.querySelectorAll('a, button, .project-card, .blog-card').forEach(el => {
-          el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
-          el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+        const cur = document.getElementById('cursor'); if (!cur) return;
+        let rx = 0, ry = 0;
+        const mv = (e) => { rx = e.clientX; ry = e.clientY; };
+        window.addEventListener('mousemove', mv);
+        let raf;
+        const loop = () => { cur.style.left = rx + 'px'; cur.style.top = ry + 'px'; raf = requestAnimationFrame(loop); };
+        raf = requestAnimationFrame(loop);
+        const on  = () => cur.classList.add('expand');
+        const off = () => cur.classList.remove('expand');
+        document.querySelectorAll('a, button').forEach(el => {
+          el.addEventListener('mouseenter', on);
+          el.addEventListener('mouseleave', off);
         });
-
-        return () => observer.disconnect();
+        return () => { window.removeEventListener('mousemove', mv); cancelAnimationFrame(raf); };
       }, []);
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        alert(lang === 'en'
-          ? 'Thank you. I will be in touch shortly.'
-          : 'Merci. Je vous repondrai sous peu.');
-      };
 
       return (
         <>
-          {/* ── NAV ─────────────────────────────────────────────────── */}
-          <nav id="nav" className={scrolled ? 'scrolled' : ''}>
-            <a href="#" className="nav-logo">paulas<span>.</span>world</a>
-            <ul className="nav-links">
-              <li><a href="#portfolio">{t.nav.portfolio}</a></li>
-              <li><a href="#about">{t.nav.about}</a></li>
-              <li><a href="#blog">{t.nav.blog}</a></li>
-              <li><a href="/cv-paula-zambrano.pdf" download>{t.nav.cv}</a></li>
-              <li><a href="#contact" className="nav-cta">{t.nav.contact}</a></li>
-              <li>
-                <button
-                  className={`lang-toggle ${lang === 'en' ? 'active' : ''}`}
-                  onClick={() => setLang('en')}
-                >EN</button>
-              </li>
-              <li>
-                <button
-                  className={`lang-toggle ${lang === 'fr' ? 'active' : ''}`}
-                  onClick={() => setLang('fr')}
-                >FR</button>
-              </li>
-            </ul>
+          {/* NAV */}
+          <nav>
+            <a href="https://paulas.world" className="nav-logo">paulas.world</a>
+            <div className="nav-right">
+              <a href="https://paulas.world" className="nav-pill">← CV</a>
+              <a href="#" className="nav-pill active">Portfolio</a>
+            </div>
           </nav>
 
-          {/* ── HERO ────────────────────────────────────────────────── */}
+          {/* HERO */}
           <section className="hero">
-            <div className="hero-left">
-              <div className="hero-eyebrow">{t.hero.eyebrow}</div>
-              <h1 className="hero-title">
-                {t.hero.title}
-                <span className="hl-navy">{t.hero.titleHighlight}</span>
-              </h1>
-              <p className="hero-sub">{t.hero.subtitle}</p>
-              <div className="hero-cta-row">
-                <a href="#portfolio" className="btn btn-brown">{t.hero.cta1}</a>
-                <a href="#about" className="btn btn-outline">{t.hero.cta2}</a>
-              </div>
+            <div className="hero-eyebrow">portfolio.paulas.world</div>
+            <h1 className="hero-name">Selected <em>Work.</em></h1>
+            <p className="hero-tagline">Golf · Data Science · Travel</p>
+            <div className="hero-pills">
+              <span className="hero-pill">Data Projects</span>
+              <span className="hero-pill">Golf Operations</span>
+              <span className="hero-pill">Writing</span>
+              <span className="hero-pill">Travel Advisory</span>
             </div>
-            <div className="hero-right">
-              <div className="hero-orb">
-                <div className="hero-orb-inner">
-                  <div className="hero-orb-logo">paulas<span>.</span>world</div>
-                  <div className="hero-orb-tagline">Golf · Finance · Strategy</div>
-                </div>
-              </div>
-              <div className="hero-tag hero-tag-1">PGA Level 3</div>
-              <div className="hero-tag hero-tag-2">Data Science</div>
-              <div className="hero-tag hero-tag-3">Master's 2028</div>
+            <div className="hero-scroll">
+              <span>Explore</span>
+              <div className="hero-scroll-line"></div>
             </div>
           </section>
 
-          {/* ── MARQUEE ─────────────────────────────────────────────── */}
-          <div className="marquee-section">
+          {/* MARQUEE */}
+          <div className="marquee-wrap" aria-hidden="true">
             <div className="marquee-track">
-              {[...t.marquee, ...t.marquee].map((item, i) => (
-                <React.Fragment key={i}>
-                  <span className={i % 3 === 0 ? "marquee-item a" : "marquee-item"}>{item}</span>
-                  <span className="marquee-dot">●</span>
-                </React.Fragment>
-              ))}
+              {marqueeItems.map((item, i) => <span key={i} className="marquee-item">{item}</span>)}
             </div>
           </div>
 
-          {/* ── PORTFOLIO ───────────────────────────────────────────── */}
-          <section className="portfolio" id="portfolio">
-            <div className="section-header fade-up">
-              <div>
-                <div className="section-label">{t.portfolio.label}</div>
-                <h2 className="section-title">
-                  {t.portfolio.title} <span>{t.portfolio.titleHighlight}</span>
-                </h2>
+          {/* INTRO */}
+          <section className="intro-section">
+            <div className="intro-inner fade-up" ref={introRef}>
+              <div className="intro-left">
+                <div className="section-label">Portfolio</div>
+                <h2>Work that<br/><em>speaks for itself.</em></h2>
               </div>
-              <span className="section-num">03</span>
-            </div>
-            <div className="portfolio-grid">
-              {t.portfolio.projects.map((project, i) => (
-                <div key={i} className="project-card fade-up">
-                  <div>
-                    <span className="project-num">{project.num}</span>
-                    <h3 className="project-name">{project.name}</h3>
-                    <p className="project-desc">{project.desc}</p>
-                    <div className="project-tags">
-                      {project.tags.map((tag, j) => (
-                        <span key={j} className="project-tag">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="project-links">
-                    <a href={project.github} className="project-link">{t.portfolio.viewGithub}</a>
-                    <a href={project.report} className="project-link project-link-secondary">{t.portfolio.viewReport}</a>
-                  </div>
-                </div>
-              ))}
+              <div className="intro-right">
+                <p>A curated selection of projects spanning data science, golf operations, travel advisory, and writing — each reflecting a different dimension of what I do.</p>
+                <p>More detail on each project coming soon. Check back as this page grows.</p>
+              </div>
             </div>
           </section>
 
-          {/* ── ABOUT ───────────────────────────────────────────────── */}
-          <section className="about" id="about">
-            <div className="about-left fade-up">
-              <div className="about-img-box">
-                <span className="about-img-letter">P</span>
+          {/* PORTFOLIO GRID */}
+          <section className="portfolio-section">
+            <div className="portfolio-inner">
+              <div className="fade-up" ref={portfolioRef}>
+                <div className="section-label" style={{color:'rgba(240,84,133,0.85)'}}>Projects</div>
+                <h2 className="portfolio-heading">What I've <em>built.</em></h2>
               </div>
-              <div className="about-badge">{t.about.badge}</div>
-            </div>
-            <div className="about-right fade-up">
-              <div className="about-tag">{t.about.tag}</div>
-              <h2 className="about-title">
-                {t.about.title}<br/>
-                <span>{t.about.titleHighlight}</span>
-              </h2>
-              <p className="about-body">{t.about.body1}</p>
-              <p className="about-body">{t.about.body2}</p>
-              <div className="about-stats">
-                {t.about.stats.map((stat, i) => (
-                  <div key={i}>
-                    <span className="stat-num">{stat.num}</span>
-                    <span className="stat-label">{stat.label}</span>
+              <div className="portfolio-grid">
+                {projects.map((p, i) => (
+                  <div key={i} className={`portfolio-card fade-up${p.wide ? ' wide' : ''}`} ref={useFadeUp(i * 80)}>
+                    <div className="card-num">{p.num}</div>
+                    <div className="card-tag">{p.tag}</div>
+                    <h3 className="card-title">{p.title}</h3>
+                    <p className="card-desc">{p.desc}</p>
+                    <div className="card-tools">
+                      {p.tools.map((t, ti) => <span key={ti} className="card-tool">{t}</span>)}
+                    </div>
+                    <a href={p.link} className="card-link" target="_blank" rel="noopener noreferrer">
+                      View project →
+                    </a>
                   </div>
                 ))}
               </div>
-              <div style={{display: 'flex', gap: '12px', flexWrap: 'wrap'}}>
-                <a href="/cv-paula-zambrano.pdf" className="btn btn-cream" download>
-                  {t.about.cta1}
-                </a>
-                <a href="#contact" className="btn btn-outline">{t.about.cta2}</a>
+            </div>
+          </section>
+
+          {/* DIVIDER */}
+          <section className="divider-section">
+            <div className="divider-inner fade-up" ref={dividerRef}>
+              <div className="divider-left">
+                <div className="section-label">About this page</div>
+                <h2>Always<br/><em>in progress.</em></h2>
+              </div>
+              <div className="divider-right">
+                <p>This portfolio is a living document — projects will be added and expanded as work develops across data science, golf operations, and advisory.</p>
+                <p>For the full professional background, visit <a href="https://paulas.world">paulas.world</a>.</p>
               </div>
             </div>
           </section>
 
-          {/* ── SKILLS ──────────────────────────────────────────────── */}
-          <section className="skills">
-            <div className="section-header fade-up">
-              <div>
-                <div className="section-label">{t.skills.label}</div>
-                <h2 className="section-title">
-                  {t.skills.title} <span>{t.skills.titleHighlight}</span>
-                </h2>
-              </div>
+          {/* CONTACT CALLOUT */}
+          <div className="contact-callout">
+            <div className="fade-up" ref={contactRef}>
+              <div className="section-label" style={{color:'rgba(255,255,255,0.7)'}}>Get in touch</div>
+              <h2>Let's work together.</h2>
+              <p>Interested in collaborating or learning more about any of these projects?</p>
+              <a href="mailto:paula@paulas.world" className="contact-btn">paula@paulas.world →</a>
             </div>
-            <div className="skills-grid">
-              {t.skills.categories.map((cat, i) => (
-                <div key={i} className="skill-category fade-up">
-                  <h3>{cat.title}</h3>
-                  <ul>
-                    {cat.skills.map((skill, j) => (
-                      <li key={j}>{skill}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </section>
+          </div>
 
-          {/* ── BLOG ────────────────────────────────────────────────── */}
-          <section className="blog" id="blog">
-            <div className="section-header fade-up">
-              <div>
-                <div className="section-label">{t.blog.label}</div>
-                <h2 className="section-title">
-                  {t.blog.title} <span>{t.blog.titleHighlight}</span>
-                </h2>
-              </div>
-            </div>
-            <div className="blog-grid">
-              {t.blog.posts.map((post, i) => (
-                <article key={i} className="blog-card fade-up">
-                  <div className="blog-meta">{post.date} · {post.readTime}</div>
-                  <h3 className="blog-title">
-                    {post.title} <span>{post.titleHighlight}</span>
-                  </h3>
-                  <p className="blog-excerpt">{post.excerpt}</p>
-                  <a href="#" className="btn btn-outline" style={{fontSize: '0.65rem'}}>
-                    {t.blog.comingSoon}
-                  </a>
-                </article>
-              ))}
-            </div>
-            <div style={{textAlign: 'center', marginTop: '3rem'}}>
-              <a href="#" className="btn btn-cream">{t.blog.cta}</a>
-            </div>
-          </section>
-
-          {/* ── CONTACT ─────────────────────────────────────────────── */}
-          <section className="contact-section" id="contact">
-            <div className="contact-box">
-              <div className="contact-left">
-                <div>
-                  <h2 className="contact-heading">{t.contact.heading}</h2>
-                  <p className="contact-tagline">{t.contact.tagline}</p>
-                  <div className="contact-details">
-                    {t.contact.details.map((detail, i) => (
-                      <div key={i}>
-                        <div className="contact-detail-label">{detail.label}</div>
-                        <div className="contact-detail-value">
-                          {i === 0
-                            ? <a href={`mailto:${detail.value}`}>{detail.value}</a>
-                            : detail.value
-                          }
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="contact-email-bottom">paula@paulas.world</div>
-              </div>
-              <div className="contact-right">
-                <div className="form-title">{t.contact.formTitle}</div>
-                <form
-                  className="contact-form"
-                  onSubmit={handleSubmit}
-                  name="contact"
-                  method="POST"
-                  data-netlify="true"
-                >
-                  <input type="hidden" name="form-name" value="contact" />
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label className="form-label">{t.contact.form.firstName}</label>
-                      <input
-                        type="text" name="first-name" className="form-input"
-                        placeholder={t.contact.form.firstNamePlaceholder} required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">{t.contact.form.lastName}</label>
-                      <input
-                        type="text" name="last-name" className="form-input"
-                        placeholder={t.contact.form.lastNamePlaceholder} required
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">{t.contact.form.email}</label>
-                    <input
-                      type="email" name="email" className="form-input"
-                      placeholder={t.contact.form.emailPlaceholder} required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">{t.contact.form.interest}</label>
-                    <select name="interest" className="form-select" required>
-                      {t.contact.form.interestOptions.map((opt, i) => (
-                        <option key={i} value={i === 0 ? '' : opt}>{opt}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">{t.contact.form.message}</label>
-                    <textarea
-                      name="message" className="form-textarea"
-                      placeholder={t.contact.form.messagePlaceholder} required
-                    ></textarea>
-                  </div>
-                  <div className="form-submit-row">
-                    <span className="form-note">{t.contact.form.note}</span>
-                    <button type="submit" className="btn btn-brown">
-                      {t.contact.form.submit}
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </section>
-
-          {/* ── FOOTER ──────────────────────────────────────────────── */}
+          {/* FOOTER */}
           <footer>
-            <div className="footer-top">
-              <div className="footer-logo">paulas<span>.</span>world</div>
-              <ul className="footer-links">
-                {t.footer.links.map((link, i) => (
-                  <li key={i}>
-                    <a href={`#${t.footer.anchors[i]}`}>{link}</a>
-                  </li>
-                ))}
-                <li><a href="mailto:paula@paulas.world">paula@paulas.world</a></li>
-              </ul>
-            </div>
-            <div className="footer-bottom">
-              <div className="footer-copy">
-                © {new Date().getFullYear()} <span>Paula Zambrano</span> · {t.footer.copy}
-              </div>
-              <div>{t.footer.made}</div>
-            </div>
+            <span className="footer-logo">paulas.world</span>
+            <span className="footer-copy">© 2026 Paula Zambrano</span>
+            <span className="footer-note">portfolio.paulas.world — all rights reserved</span>
           </footer>
         </>
       );
     }
 
-    ReactDOM.render(<App />, document.getElementById('root'));
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
 </html>
