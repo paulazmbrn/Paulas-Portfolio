@@ -39,6 +39,9 @@
     .nav-pill { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.85rem; border-radius: 999px; border: 1.5px solid rgba(230,230,218,0.35); background: transparent; color: rgba(230,230,218,0.6); text-decoration: none; transition: all .2s; }
     .nav-pill:hover { border-color: rgba(230,230,218,0.7); color: var(--linen); }
     .nav-pill.active { background: var(--linen); color: var(--forest); border-color: var(--linen); }
+    .lang-toggle { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.85rem; border-radius: 999px; border: 1.5px solid rgba(230,230,218,0.35); background: transparent; color: rgba(230,230,218,0.6); cursor: pointer; transition: all .2s; }
+    .lang-toggle.active { background: var(--linen); color: var(--forest); border-color: var(--linen); }
+    .lang-toggle:hover:not(.active) { border-color: rgba(230,230,218,0.7); color: var(--linen); }
 
     /* HERO */
     .hero { min-height: 100vh; background: var(--forest); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 8rem 2rem 6rem; position: relative; overflow: hidden; }
@@ -142,53 +145,214 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <script type="text/babel">
-    const { useEffect, useRef } = React;
+    const { useState, useEffect, useRef } = React;
 
-    const marqueeItems = [
-      "GOLF OPERATIONS","DATA SCIENCE","PYTHON","TRAVEL ADVISORY","EN·ES·FR",
-      "TOURNAMENT MANAGEMENT","TRACKMAN","PLAYER DEVELOPMENT","ANALYTICS","PROJECTS",
-      "GOLF OPERATIONS","DATA SCIENCE","PYTHON","TRAVEL ADVISORY","EN·ES·FR",
-      "TOURNAMENT MANAGEMENT","TRACKMAN","PLAYER DEVELOPMENT","ANALYTICS","PROJECTS",
-    ];
-
-    const projects = [
-      {
-        num: "01",
-        tag: "Golf Operations · Data Science",
-        title: "Golf Club Financial Analysis",
-        desc: "A quantitative revenue analysis of a luxury golf operation in Los Cabos, Mexico. Models pricing elasticity across tee time categories, identifies revenue optimization opportunities, and builds a seasonal demand forecast. Built with Python and Excel financial modeling.",
-        tools: ["Python", "Excel", "Financial Modeling", "Pricing Analysis"],
-        link: "#",
-        wide: true
+    const T = {
+      en: {
+        nav_cv: "← CV",
+        nav_portfolio: "Portfolio",
+        hero_eyebrow: "portfolio.paulas.world",
+        hero_h1_a: "Selected",
+        hero_h1_b: "Work.",
+        hero_tagline: "Golf · Data Science · Travel",
+        hero_pills: ["Data Projects", "Golf Operations", "Writing", "Travel Advisory"],
+        hero_scroll: "Explore",
+        marquee: [
+          "GOLF OPERATIONS","DATA SCIENCE","PYTHON","TRAVEL ADVISORY","EN·ES·FR",
+          "TOURNAMENT MANAGEMENT","TRACKMAN","PLAYER DEVELOPMENT","ANALYTICS","PROJECTS",
+          "GOLF OPERATIONS","DATA SCIENCE","PYTHON","TRAVEL ADVISORY","EN·ES·FR",
+          "TOURNAMENT MANAGEMENT","TRACKMAN","PLAYER DEVELOPMENT","ANALYTICS","PROJECTS",
+        ],
+        intro_label: "Portfolio",
+        intro_h_a: "Work that",
+        intro_h_b: "speaks for itself.",
+        intro_p1: "A curated selection of projects spanning data science, golf operations, travel advisory, and writing — each reflecting a different dimension of what I do.",
+        intro_p2: "More detail on each project coming soon. Check back as this page grows.",
+        projects_label: "Projects",
+        projects_h_a: "What I've",
+        projects_h_b: "built.",
+        card_link: "View project →",
+        projects: [
+          {
+            num: "01",
+            tag: "Golf Operations · Data Science",
+            title: "Golf Club Financial Analysis",
+            desc: "A quantitative revenue analysis of a luxury golf operation in Los Cabos, Mexico. Models pricing elasticity across tee time categories, identifies revenue optimization opportunities, and builds a seasonal demand forecast. Built with Python and Excel financial modeling.",
+            tools: ["Python", "Excel", "Financial Modeling", "Pricing Analysis"],
+            link: "#", wide: true
+          },
+          {
+            num: "02",
+            tag: "Market Analysis",
+            title: "Luxury Fashion Market Analysis",
+            desc: "A strategic market report analyzing the competitive landscape of the global luxury fashion industry. Deep-dive into LVMH, Kering, and Hermès — covering revenue mix, brand portfolio strategy, margin dynamics, and market positioning. Structured after the Business of Fashion 2024 State of Fashion report.",
+            tools: ["Python", "Tableau", "Market Analysis", "Competitive Strategy"],
+            link: "#", wide: false
+          },
+          {
+            num: "03",
+            tag: "Brand Strategy · Market Analysis",
+            title: "The New Luxury Consumer: Sports, Access & Experience",
+            desc: "A strategic market analysis examining the convergence of luxury brands and premium sports — golf, F1, and tennis. Analyzes how the modern luxury consumer is shifting spend from material goods toward curated experiences, access, and time. Covers brand strategy (LVMH, Kering, Rolex), sponsorship growth trends, consumer psychographics, and where the white space lies for luxury houses entering the sports vertical.",
+            tools: ["Python", "Tableau", "Market Analysis", "Brand Strategy"],
+            link: "#", wide: false
+          },
+          {
+            num: "04",
+            tag: "Writing · Golf",
+            title: "The New Par",
+            desc: "A golf publication covering the business of golf, course operations, player development, and the evolving industry landscape. Essays on strategy, technology, and the future of the game.",
+            tools: ["Substack", "Editorial", "Golf Business"],
+            link: "https://thenewpar.substack.com", wide: true
+          },
+        ],
+        divider_label: "About this page",
+        divider_h_a: "Always",
+        divider_h_b: "in progress.",
+        divider_p1: "This portfolio is a living document — projects will be added and expanded as work develops across data science, golf operations, and advisory.",
+        divider_p2: "For the full professional background, visit",
+        contact_label: "Get in touch",
+        contact_h: "Let's work together.",
+        contact_p: "Interested in collaborating or learning more about any of these projects?",
+        footer_note: "portfolio.paulas.world — all rights reserved",
       },
-      {
-        num: "02",
-        tag: "Market Analysis",
-        title: "Luxury Fashion Market Analysis",
-        desc: "A strategic market report analyzing the competitive landscape of the global luxury fashion industry. Deep-dive into LVMH, Kering, and Hermès — covering revenue mix, brand portfolio strategy, margin dynamics, and market positioning. Structured after the Business of Fashion 2024 State of Fashion report.",
-        tools: ["Python", "Tableau", "Market Analysis", "Competitive Strategy"],
-        link: "#",
-        wide: false
+      fr: {
+        nav_cv: "← CV",
+        nav_portfolio: "Portfolio",
+        hero_eyebrow: "portfolio.paulas.world",
+        hero_h1_a: "Travaux",
+        hero_h1_b: "Sélectionnés.",
+        hero_tagline: "Golf · Data Science · Voyage",
+        hero_pills: ["Projets Data", "Opérations Golf", "Écriture", "Conseil en Voyages"],
+        hero_scroll: "Explorer",
+        marquee: [
+          "OPÉRATIONS GOLF","DATA SCIENCE","PYTHON","CONSEIL VOYAGES","EN·ES·FR",
+          "GESTION TOURNOIS","TRACKMAN","DÉVELOPPEMENT JOUEURS","ANALYTIQUE","PROJETS",
+          "OPÉRATIONS GOLF","DATA SCIENCE","PYTHON","CONSEIL VOYAGES","EN·ES·FR",
+          "GESTION TOURNOIS","TRACKMAN","DÉVELOPPEMENT JOUEURS","ANALYTIQUE","PROJETS",
+        ],
+        intro_label: "Portfolio",
+        intro_h_a: "Un travail qui",
+        intro_h_b: "parle de lui-même.",
+        intro_p1: "Une sélection de projets couvrant la data science, les opérations golf, le conseil en voyages et l'écriture — chacun reflétant une dimension différente de mon travail.",
+        intro_p2: "Plus de détails sur chaque projet bientôt. Revenez régulièrement.",
+        projects_label: "Projets",
+        projects_h_a: "Ce que j'ai",
+        projects_h_b: "construit.",
+        card_link: "Voir le projet →",
+        projects: [
+          {
+            num: "01",
+            tag: "Opérations Golf · Data Science",
+            title: "Analyse Financière d'un Club de Golf",
+            desc: "Une analyse quantitative des revenus d'une opération de golf de luxe à Los Cabos, Mexique. Modélise l'élasticité-prix sur les catégories de départs, identifie les opportunités d'optimisation des revenus et construit une prévision de demande saisonnière. Développé avec Python et modélisation financière Excel.",
+            tools: ["Python", "Excel", "Modélisation Financière", "Analyse des Prix"],
+            link: "#", wide: true
+          },
+          {
+            num: "02",
+            tag: "Analyse de Marché",
+            title: "Analyse du Marché de la Mode de Luxe",
+            desc: "Un rapport de marché stratégique analysant le paysage concurrentiel de l'industrie mondiale de la mode de luxe. Analyse approfondie de LVMH, Kering et Hermès — couvrant la composition des revenus, la stratégie de portefeuille de marques, la dynamique des marges et le positionnement marché. Structuré d'après le rapport Business of Fashion 2024 State of Fashion.",
+            tools: ["Python", "Tableau", "Analyse de Marché", "Stratégie Concurrentielle"],
+            link: "#", wide: false
+          },
+          {
+            num: "03",
+            tag: "Stratégie de Marque · Analyse de Marché",
+            title: "Le Nouveau Consommateur de Luxe : Sports, Accès et Expérience",
+            desc: "Une analyse de marché stratégique examinant la convergence des marques de luxe et des sports premium — golf, F1 et tennis. Analyse comment le consommateur de luxe moderne déplace ses dépenses des biens matériels vers des expériences curatées, l'accès et le temps. Couvre la stratégie de marque (LVMH, Kering, Rolex), les tendances de croissance des sponsorings, la psychographie des consommateurs et les espaces disponibles pour les maisons de luxe entrant dans le vertical sportif.",
+            tools: ["Python", "Tableau", "Analyse de Marché", "Stratégie de Marque"],
+            link: "#", wide: false
+          },
+          {
+            num: "04",
+            tag: "Écriture · Golf",
+            title: "The New Par",
+            desc: "Une publication golf couvrant le business du golf, les opérations de parcours, le développement des joueurs et l'évolution du secteur. Essais sur la stratégie, la technologie et l'avenir du jeu.",
+            tools: ["Substack", "Éditorial", "Business du Golf"],
+            link: "https://thenewpar.substack.com", wide: true
+          },
+        ],
+        divider_label: "À propos de cette page",
+        divider_h_a: "Toujours",
+        divider_h_b: "en cours.",
+        divider_p1: "Ce portfolio est un document vivant — des projets seront ajoutés et développés au fil de l'avancement des travaux en data science, opérations golf et conseil.",
+        divider_p2: "Pour le parcours professionnel complet, visitez",
+        contact_label: "Nous contacter",
+        contact_h: "Travaillons ensemble.",
+        contact_p: "Intéressé par une collaboration ou pour en savoir plus sur ces projets ?",
+        footer_note: "portfolio.paulas.world — tous droits réservés",
       },
-      {
-        num: "03",
-        tag: "Brand Strategy · Market Analysis",
-        title: "The New Luxury Consumer: Sports, Access & Experience",
-        desc: "A strategic market analysis examining the convergence of luxury brands and premium sports — golf, F1, and tennis. Analyzes how the modern luxury consumer is shifting spend from material goods toward curated experiences, access, and time. Covers brand strategy (LVMH, Kering, Rolex), sponsorship growth trends, consumer psychographics, and where the white space lies for luxury houses entering the sports vertical.",
-        tools: ["Python", "Tableau", "Market Analysis", "Brand Strategy"],
-        link: "#",
-        wide: false
+      es: {
+        nav_cv: "← CV",
+        nav_portfolio: "Portfolio",
+        hero_eyebrow: "portfolio.paulas.world",
+        hero_h1_a: "Trabajo",
+        hero_h1_b: "Seleccionado.",
+        hero_tagline: "Golf · Ciencia de Datos · Viajes",
+        hero_pills: ["Proyectos Data", "Operaciones Golf", "Escritura", "Asesoría de Viajes"],
+        hero_scroll: "Explorar",
+        marquee: [
+          "OPERACIONES GOLF","CIENCIA DE DATOS","PYTHON","ASESORÍA VIAJES","EN·ES·FR",
+          "GESTIÓN TORNEOS","TRACKMAN","DESARROLLO JUGADORES","ANALÍTICA","PROYECTOS",
+          "OPERACIONES GOLF","CIENCIA DE DATOS","PYTHON","ASESORÍA VIAJES","EN·ES·FR",
+          "GESTIÓN TORNEOS","TRACKMAN","DESARROLLO JUGADORES","ANALÍTICA","PROYECTOS",
+        ],
+        intro_label: "Portfolio",
+        intro_h_a: "Un trabajo que",
+        intro_h_b: "habla por sí solo.",
+        intro_p1: "Una selección de proyectos que abarca ciencia de datos, operaciones de golf, asesoría de viajes y escritura — cada uno refleja una dimensión diferente de lo que hago.",
+        intro_p2: "Más detalles sobre cada proyecto próximamente. Vuelve a visitarnos.",
+        projects_label: "Proyectos",
+        projects_h_a: "Lo que he",
+        projects_h_b: "construido.",
+        card_link: "Ver proyecto →",
+        projects: [
+          {
+            num: "01",
+            tag: "Operaciones de Golf · Ciencia de Datos",
+            title: "Análisis Financiero de Club de Golf",
+            desc: "Un análisis cuantitativo de ingresos de una operación de golf de lujo en Los Cabos, México. Modela la elasticidad de precios en categorías de tee times, identifica oportunidades de optimización de ingresos y construye una previsión de demanda estacional. Desarrollado con Python y modelado financiero en Excel.",
+            tools: ["Python", "Excel", "Modelado Financiero", "Análisis de Precios"],
+            link: "#", wide: true
+          },
+          {
+            num: "02",
+            tag: "Análisis de Mercado",
+            title: "Análisis del Mercado de Moda de Lujo",
+            desc: "Un informe de mercado estratégico que analiza el panorama competitivo de la industria mundial de la moda de lujo. Análisis profundo de LVMH, Kering y Hermès — cubriendo la composición de ingresos, estrategia de cartera de marcas, dinámica de márgenes y posicionamiento en el mercado. Estructurado según el informe Business of Fashion 2024 State of Fashion.",
+            tools: ["Python", "Tableau", "Análisis de Mercado", "Estrategia Competitiva"],
+            link: "#", wide: false
+          },
+          {
+            num: "03",
+            tag: "Estrategia de Marca · Análisis de Mercado",
+            title: "El Nuevo Consumidor de Lujo: Deportes, Acceso y Experiencia",
+            desc: "Un análisis de mercado estratégico que examina la convergencia de marcas de lujo y deportes premium — golf, F1 y tenis. Analiza cómo el consumidor de lujo moderno está desplazando su gasto de bienes materiales hacia experiencias curadas, acceso y tiempo. Cubre estrategia de marca (LVMH, Kering, Rolex), tendencias de crecimiento en patrocinios, psicografía del consumidor y los espacios disponibles para las casas de lujo que entran en el vertical deportivo.",
+            tools: ["Python", "Tableau", "Análisis de Mercado", "Estrategia de Marca"],
+            link: "#", wide: false
+          },
+          {
+            num: "04",
+            tag: "Escritura · Golf",
+            title: "The New Par",
+            desc: "Una publicación de golf que cubre el negocio del golf, las operaciones de campo, el desarrollo de jugadores y la evolución del sector. Ensayos sobre estrategia, tecnología y el futuro del juego.",
+            tools: ["Substack", "Editorial", "Negocio del Golf"],
+            link: "https://thenewpar.substack.com", wide: true
+          },
+        ],
+        divider_label: "Sobre esta página",
+        divider_h_a: "Siempre",
+        divider_h_b: "en progreso.",
+        divider_p1: "Este portfolio es un documento vivo — se añadirán y ampliarán proyectos a medida que avance el trabajo en ciencia de datos, operaciones de golf y asesoría.",
+        divider_p2: "Para el perfil profesional completo, visita",
+        contact_label: "Contacto",
+        contact_h: "Trabajemos juntos.",
+        contact_p: "¿Interesado en colaborar o saber más sobre alguno de estos proyectos?",
+        footer_note: "portfolio.paulas.world — todos los derechos reservados",
       },
-      {
-        num: "04",
-        tag: "Writing · Golf",
-        title: "The New Par",
-        desc: "A golf publication covering the business of golf, course operations, player development, and the evolving industry landscape. Essays on strategy, technology, and the future of the game.",
-        tools: ["Substack", "Editorial", "Golf Business"],
-        link: "https://thenewpar.substack.com",
-        wide: true
-      },
-    ];
+    };
 
     function useFadeUp(delay) {
       const ref = useRef(null);
@@ -204,10 +368,13 @@
     }
 
     function App() {
-      const introRef    = useFadeUp(0);
+      const [lang, setLang] = useState('en');
+      const t = T[lang];
+
+      const introRef     = useFadeUp(0);
       const portfolioRef = useFadeUp(0);
-      const dividerRef  = useFadeUp(0);
-      const contactRef  = useFadeUp(0);
+      const dividerRef   = useFadeUp(0);
+      const contactRef   = useFadeUp(0);
 
       useEffect(() => {
         const cur = document.getElementById('cursor'); if (!cur) return;
@@ -232,24 +399,24 @@
           <nav>
             <a href="https://paulas.world" className="nav-logo">paulas.world</a>
             <div className="nav-right">
-              <a href="https://paulas.world" className="nav-pill">← CV</a>
-              <a href="#" className="nav-pill active">Portfolio</a>
+              <a href="https://paulas.world" className="nav-pill">{t.nav_cv}</a>
+              <a href="#" className="nav-pill active">{t.nav_portfolio}</a>
+              <button className={`lang-toggle ${lang==='en'?'active':''}`} onClick={()=>setLang('en')}>EN</button>
+              <button className={`lang-toggle ${lang==='fr'?'active':''}`} onClick={()=>setLang('fr')}>FR</button>
+              <button className={`lang-toggle ${lang==='es'?'active':''}`} onClick={()=>setLang('es')}>ES</button>
             </div>
           </nav>
 
           {/* HERO */}
           <section className="hero">
-            <div className="hero-eyebrow">portfolio.paulas.world</div>
-            <h1 className="hero-name">Selected <em>Work.</em></h1>
-            <p className="hero-tagline">Golf · Data Science · Travel</p>
+            <div className="hero-eyebrow">{t.hero_eyebrow}</div>
+            <h1 className="hero-name">{t.hero_h1_a} <em>{t.hero_h1_b}</em></h1>
+            <p className="hero-tagline">{t.hero_tagline}</p>
             <div className="hero-pills">
-              <span className="hero-pill">Data Projects</span>
-              <span className="hero-pill">Golf Operations</span>
-              <span className="hero-pill">Writing</span>
-              <span className="hero-pill">Travel Advisory</span>
+              {t.hero_pills.map((p, i) => <span key={i} className="hero-pill">{p}</span>)}
             </div>
             <div className="hero-scroll">
-              <span>Explore</span>
+              <span>{t.hero_scroll}</span>
               <div className="hero-scroll-line"></div>
             </div>
           </section>
@@ -257,7 +424,7 @@
           {/* MARQUEE */}
           <div className="marquee-wrap" aria-hidden="true">
             <div className="marquee-track">
-              {marqueeItems.map((item, i) => <span key={i} className="marquee-item">{item}</span>)}
+              {t.marquee.map((item, i) => <span key={i} className="marquee-item">{item}</span>)}
             </div>
           </div>
 
@@ -265,12 +432,12 @@
           <section className="intro-section">
             <div className="intro-inner fade-up" ref={introRef}>
               <div className="intro-left">
-                <div className="section-label">Portfolio</div>
-                <h2>Work that<br/><em>speaks for itself.</em></h2>
+                <div className="section-label">{t.intro_label}</div>
+                <h2>{t.intro_h_a}<br/><em>{t.intro_h_b}</em></h2>
               </div>
               <div className="intro-right">
-                <p>A curated selection of projects spanning data science, golf operations, travel advisory, and writing — each reflecting a different dimension of what I do.</p>
-                <p>More detail on each project coming soon. Check back as this page grows.</p>
+                <p>{t.intro_p1}</p>
+                <p>{t.intro_p2}</p>
               </div>
             </div>
           </section>
@@ -279,21 +446,21 @@
           <section className="portfolio-section">
             <div className="portfolio-inner">
               <div className="fade-up" ref={portfolioRef}>
-                <div className="section-label" style={{color:'rgba(240,84,133,0.85)'}}>Projects</div>
-                <h2 className="portfolio-heading">What I've <em>built.</em></h2>
+                <div className="section-label" style={{color:'rgba(240,84,133,0.85)'}}>{t.projects_label}</div>
+                <h2 className="portfolio-heading">{t.projects_h_a} <em>{t.projects_h_b}</em></h2>
               </div>
               <div className="portfolio-grid">
-                {projects.map((p, i) => (
+                {t.projects.map((p, i) => (
                   <div key={i} className={`portfolio-card fade-up${p.wide ? ' wide' : ''}`} ref={useFadeUp(i * 80)}>
                     <div className="card-num">{p.num}</div>
                     <div className="card-tag">{p.tag}</div>
                     <h3 className="card-title">{p.title}</h3>
                     <p className="card-desc">{p.desc}</p>
                     <div className="card-tools">
-                      {p.tools.map((t, ti) => <span key={ti} className="card-tool">{t}</span>)}
+                      {p.tools.map((tool, ti) => <span key={ti} className="card-tool">{tool}</span>)}
                     </div>
                     <a href={p.link} className="card-link" target="_blank" rel="noopener noreferrer">
-                      View project →
+                      {t.card_link}
                     </a>
                   </div>
                 ))}
@@ -305,12 +472,12 @@
           <section className="divider-section">
             <div className="divider-inner fade-up" ref={dividerRef}>
               <div className="divider-left">
-                <div className="section-label">About this page</div>
-                <h2>Always<br/><em>in progress.</em></h2>
+                <div className="section-label">{t.divider_label}</div>
+                <h2>{t.divider_h_a}<br/><em>{t.divider_h_b}</em></h2>
               </div>
               <div className="divider-right">
-                <p>This portfolio is a living document — projects will be added and expanded as work develops across data science, golf operations, and advisory.</p>
-                <p>For the full professional background, visit <a href="https://paulas.world">paulas.world</a>.</p>
+                <p>{t.divider_p1}</p>
+                <p>{t.divider_p2} <a href="https://paulas.world">paulas.world</a>.</p>
               </div>
             </div>
           </section>
@@ -318,9 +485,9 @@
           {/* CONTACT CALLOUT */}
           <div className="contact-callout">
             <div className="fade-up" ref={contactRef}>
-              <div className="section-label" style={{color:'rgba(255,255,255,0.7)'}}>Get in touch</div>
-              <h2>Let's work together.</h2>
-              <p>Interested in collaborating or learning more about any of these projects?</p>
+              <div className="section-label" style={{color:'rgba(255,255,255,0.7)'}}>{t.contact_label}</div>
+              <h2>{t.contact_h}</h2>
+              <p>{t.contact_p}</p>
               <a href="mailto:paula@paulas.world" className="contact-btn">paula@paulas.world →</a>
             </div>
           </div>
@@ -329,7 +496,7 @@
           <footer>
             <span className="footer-logo">paulas.world</span>
             <span className="footer-copy">© 2026 Paula Zambrano</span>
-            <span className="footer-note">portfolio.paulas.world — all rights reserved</span>
+            <span className="footer-note">{t.footer_note}</span>
           </footer>
         </>
       );
