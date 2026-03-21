@@ -32,8 +32,11 @@
     .cursor { width: 12px; height: 12px; background: var(--pink); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s, background .2s; mix-blend-mode: multiply; }
     .cursor.expand { width: 30px; height: 30px; background: var(--forest); }
 
+    /* BANNER */
+    .under-construction { width: 100%; background: var(--pink); color: var(--white); text-align: center; padding: 0.55rem 1rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; position: fixed; top: 0; left: 0; right: 0; z-index: 200; }
+
     /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: var(--forest); }
+    nav { position: fixed; top: 2.1rem; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: var(--forest); }
     .nav-logo { font-family: 'Krona One', sans-serif; font-size: 1.1rem; color: var(--linen); text-decoration: none; }
     .nav-right { display: flex; align-items: center; gap: 0.75rem; }
     .nav-pill { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.85rem; border-radius: 999px; border: 1.5px solid rgba(230,230,218,0.35); background: transparent; color: rgba(230,230,218,0.6); text-decoration: none; transition: all .2s; }
@@ -395,6 +398,9 @@
 
       return (
         <>
+          {/* BANNER */}
+          <div className="under-construction">🚧 Under Construction</div>
+
           {/* NAV */}
           <nav>
             <a href="https://paulas.world" className="nav-logo">paulas.world</a>
