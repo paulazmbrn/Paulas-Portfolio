@@ -123,6 +123,11 @@
     .stack-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
     .stack-pill { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.85rem; border-radius: 999px; border: 1px solid rgba(42,66,38,0.25); color: var(--muted); }
 
+    /* TABLEAU */
+    .tableau-section { background: var(--linen); padding: 5rem 3rem; }
+    .tableau-inner { max-width: 960px; margin: 0 auto; }
+    .tableau-embed { margin-top: 2.5rem; border-radius: 1.25rem; overflow: hidden; border: 1px solid rgba(42,66,38,0.12); background: #fff; }
+
     /* GITHUB CTA */
     .github-cta { background: var(--pink); padding: 4rem 3rem; text-align: center; }
     .github-cta h2 { font-family: 'Krona One', sans-serif; font-size: clamp(1.4rem,3vw,2.2rem); color: var(--white); margin-bottom: 0.75rem; }
@@ -242,6 +247,9 @@
         table_h_b: "per store.",
         table_note: "Calculated at 95% service level · 2-week lead time assumption · values in €",
         table_headers: ["Store", "Avg Weekly Demand", "Safety Stock", "Reorder Point", "Coverage", "MAPE"],
+        tableau_label: "Interactive Dashboard",
+        tableau_h_a: "Explore the data",
+        tableau_h_b: "in Tableau.",
         limits_label: "Limitations",
         limits_h_a: "What this model",
         limits_h_b: "doesn't capture.",
@@ -335,6 +343,9 @@
         table_h_b: "par magasin.",
         table_note: "Calculé à un niveau de service de 95% · Délai fournisseur 2 semaines · valeurs en €",
         table_headers: ["Magasin", "Demande Hebdo Moy.", "Stock de Sécurité", "Point de Commande", "Couverture", "MAPE"],
+        tableau_label: "Dashboard Interactif",
+        tableau_h_a: "Explorez les données",
+        tableau_h_b: "dans Tableau.",
         limits_label: "Limites",
         limits_h_a: "Ce que ce modèle",
         limits_h_b: "ne capture pas.",
@@ -428,6 +439,9 @@
         table_h_b: "por tienda.",
         table_note: "Calculado a nivel de servicio del 95% · Plazo de entrega 2 semanas · valores en €",
         table_headers: ["Tienda", "Demanda Semanal Prom.", "Stock de Seguridad", "Punto de Reorden", "Cobertura", "MAPE"],
+        tableau_label: "Dashboard Interactivo",
+        tableau_h_a: "Explora los datos",
+        tableau_h_b: "en Tableau.",
         limits_label: "Limitaciones",
         limits_h_a: "Lo que este modelo",
         limits_h_b: "no captura.",
@@ -491,7 +505,55 @@
 
       const r1 = useFadeUp(), r2 = useFadeUp(), r3 = useFadeUp(), r4 = useFadeUp(),
             r5 = useFadeUp(), r6 = useFadeUp(), r7 = useFadeUp(), r8 = useFadeUp(),
-            r9 = useFadeUp(), r10= useFadeUp(), r11= useFadeUp();
+            r9 = useFadeUp(), r10= useFadeUp(), r11= useFadeUp(), r12= useFadeUp();
+
+      const tableauRef = useRef(null);
+      useEffect(() => {
+        const container = tableauRef.current;
+        if (!container) return;
+        // clear any previous embed (e.g. on lang change re-render)
+        container.innerHTML = '';
+        const vizDiv = document.createElement('div');
+        vizDiv.id = 'viz1774465793284';
+        vizDiv.style.position = 'relative';
+        const obj = document.createElement('object');
+        obj.className = 'tableauViz';
+        obj.style.display = 'none';
+        const params = [
+          ['host_url', 'https%3A%2F%2Fpublic.tableau.com%2F'],
+          ['embed_code_version', '3'],
+          ['site_root', ''],
+          ['name', 'ProvisionmentProject-PaulaZambranoPortfolio/ProvisionmentProject-PaulaZambrano'],
+          ['tabs', 'no'],
+          ['toolbar', 'yes'],
+          ['static_image', 'https://public.tableau.com/static/images/Pr/ProvisionmentProject-PaulaZambranoPortfolio/ProvisionmentProject-PaulaZambrano/1.png'],
+          ['animate_transition', 'yes'],
+          ['display_static_image', 'yes'],
+          ['display_spinner', 'yes'],
+          ['display_overlay', 'yes'],
+          ['display_count', 'yes'],
+          ['language', 'en-US'],
+          ['filter', 'publish=yes'],
+        ];
+        params.forEach(([name, value]) => {
+          const p = document.createElement('param');
+          p.name = name; p.value = value;
+          obj.appendChild(p);
+        });
+        vizDiv.appendChild(obj);
+        container.appendChild(vizDiv);
+        const w = vizDiv.offsetWidth;
+        if (w > 500) {
+          obj.style.minWidth = '420px'; obj.style.maxWidth = '100%';
+          obj.style.width = '100%'; obj.style.minHeight = '587px';
+          obj.style.maxHeight = '887px'; obj.style.height = (w * 0.65) + 'px';
+        } else {
+          obj.style.width = '100%'; obj.style.height = '750px';
+        }
+        const script = document.createElement('script');
+        script.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        obj.parentNode.insertBefore(script, obj);
+      }, []);
 
       return (
         <>
@@ -626,6 +688,17 @@
                   </div>
                 ))}
               </div>
+            </div>
+          </section>
+
+          {/* TABLEAU DASHBOARD */}
+          <section className="tableau-section">
+            <div className="tableau-inner">
+              <div className="fade-up" ref={r12}>
+                <div className="section-label">{t.tableau_label}</div>
+                <h2 className="section-heading">{t.tableau_h_a}<br/><em>{t.tableau_h_b}</em></h2>
+              </div>
+              <div className="tableau-embed" ref={tableauRef}></div>
             </div>
           </section>
 
