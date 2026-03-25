@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demand Forecasting & Inventory Optimization — Paula Zambrano</title>
+  <meta name="description" content="End-to-end demand forecasting and inventory optimization for beauty retail using Python, scikit-learn, and Tableau." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest: #2a4226;
+      --linen:  #e6e6da;
+      --pink:   #f05485;
+      --ink:    #1c1c1a;
+      --muted:  #6b6b60;
+      --white:  #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Space Grotesk', sans-serif; background: var(--linen); color: var(--ink); overflow-x: hidden; }
+
+    /* CURSOR */
+    .cursor { width: 12px; height: 12px; background: var(--pink); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s,height .2s,background .2s; mix-blend-mode: multiply; }
+    .cursor.expand { width: 30px; height: 30px; background: var(--forest); }
+
+    /* BANNER */
+    .under-construction { width: 100%; background: var(--pink); color: var(--white); text-align: center; padding: 0.55rem 1rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; position: fixed; top: 0; left: 0; right: 0; z-index: 200; }
+
+    /* NAV */
+    nav { position: fixed; top: 2.1rem; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: var(--forest); }
+    .nav-logo { font-family: 'Krona One', sans-serif; font-size: 1.1rem; color: var(--linen); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-pill { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.85rem; border-radius: 999px; border: 1.5px solid rgba(230,230,218,0.35); background: transparent; color: rgba(230,230,218,0.6); text-decoration: none; transition: all .2s; }
+    .nav-pill:hover { border-color: rgba(230,230,218,0.7); color: var(--linen); }
+    .lang-toggle { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.85rem; border-radius: 999px; border: 1.5px solid rgba(230,230,218,0.35); background: transparent; color: rgba(230,230,218,0.6); cursor: pointer; transition: all .2s; }
+    .lang-toggle.active { background: var(--linen); color: var(--forest); border-color: var(--linen); }
+    .lang-toggle:hover:not(.active) { border-color: rgba(230,230,218,0.7); color: var(--linen); }
+
+    /* HERO */
+    .hero { min-height: 70vh; background: var(--forest); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10rem 2rem 5rem; position: relative; overflow: hidden; }
+    .hero::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(240,84,133,0.09) 0%, transparent 70%); pointer-events:none; }
+    .hero::after { content:''; position:absolute; inset:0; background-image: linear-gradient(rgba(230,230,218,0.03) 1px,transparent 1px), linear-gradient(90deg,rgba(230,230,218,0.03) 1px,transparent 1px); background-size: 60px 60px; pointer-events:none; }
+    .hero-eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--pink); margin-bottom: 1.5rem; position: relative; z-index: 1; }
+    .hero-title { font-family: 'Krona One', sans-serif; font-size: clamp(2rem, 5vw, 4rem); font-weight: 400; color: var(--linen); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; position: relative; z-index: 1; max-width: 800px; }
+    .hero-title em { color: var(--pink); font-style: normal; }
+    .hero-sub { font-size: 0.88rem; font-weight: 300; letter-spacing: 0.08em; color: rgba(230,230,218,0.55); margin-bottom: 2rem; position: relative; z-index: 1; }
+    .hero-pills { display: flex; gap: 0.65rem; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
+    .hero-pill { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; padding: 0.4rem 1rem; border-radius: 999px; border: 1.5px solid rgba(230,230,218,0.2); color: rgba(230,230,218,0.65); }
+
+    /* MARQUEE */
+    .marquee-wrap { overflow: hidden; background: var(--pink); padding: 0.65rem 0; }
+    .marquee-track { display: flex; white-space: nowrap; animation: marquee 28s linear infinite; }
+    .marquee-item { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white); padding: 0 2rem; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* SHARED */
+    .section-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.9rem; }
+    .section-heading { font-family: 'Krona One', sans-serif; font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 400; color: var(--forest); line-height: 1.1; margin-bottom: 1.75rem; }
+    .section-heading em { color: var(--pink); font-style: normal; }
+    .fade-up { opacity: 0; transform: translateY(26px); transition: opacity .72s ease, transform .72s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* BODY TEXT */
+    .body-text { font-size: 0.92rem; line-height: 1.85; color: var(--muted); }
+    .body-text p { margin-bottom: 1.1rem; }
+    .body-text p:last-child { margin-bottom: 0; }
+    .body-text a { color: var(--forest); font-weight: 600; }
+    .body-text a:hover { color: var(--pink); }
+
+    /* LAYOUT */
+    .content-section { padding: 5rem 3rem; max-width: 960px; margin: 0 auto; }
+    .two-col { display: grid; grid-template-columns: 1fr 1.8fr; gap: 4rem; align-items: start; }
+    .two-col-left h2 { font-family: 'Krona One', sans-serif; font-size: clamp(1.5rem, 3vw, 2rem); color: var(--forest); line-height: 1.15; margin-top: 0.5rem; }
+    .two-col-left h2 em { color: var(--pink); font-style: normal; }
+
+    /* DARK SECTIONS */
+    .dark-section { background: var(--forest); padding: 5rem 3rem; }
+    .dark-section .section-label { color: rgba(240,84,133,0.85); }
+    .dark-section .section-heading { color: var(--linen); }
+    .dark-section .body-text { color: rgba(230,230,218,0.6); }
+    .dark-section .body-text a { color: var(--linen); }
+    .dark-inner { max-width: 960px; margin: 0 auto; }
+
+    /* PHASE CARDS */
+    .phase-card { background: rgba(230,230,218,0.06); border: 1px solid rgba(230,230,218,0.12); border-radius: 1.5rem; padding: 2.5rem; margin-bottom: 2rem; }
+    .phase-card:last-child { margin-bottom: 0; }
+    .phase-num { font-family: 'Krona One', sans-serif; font-size: 3.5rem; color: rgba(240,84,133,0.18); line-height: 1; margin-bottom: 0.75rem; }
+    .phase-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.4rem; }
+    .phase-title { font-family: 'Krona One', sans-serif; font-size: 1.2rem; color: var(--linen); margin-bottom: 1rem; line-height: 1.2; }
+    .phase-body { font-size: 0.88rem; line-height: 1.8; color: rgba(230,230,218,0.6); }
+    .obj-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 2rem; }
+
+    /* IMAGES */
+    .img-block { margin-top: 2rem; }
+    .img-block img { width: 100%; border-radius: 1rem; display: block; margin-bottom: 1rem; border: 1px solid rgba(230,230,218,0.1); }
+    .img-caption-dark { font-size: 0.72rem; color: rgba(230,230,218,0.4); letter-spacing: 0.05em; text-align: center; margin-bottom: 2rem; }
+    .img-caption-light { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; text-align: center; margin-bottom: 2rem; }
+
+    /* FINDINGS */
+    .findings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+    .finding-card { background: rgba(230,230,218,0.05); border: 1px solid rgba(230,230,218,0.1); border-radius: 1rem; padding: 1.75rem; }
+    .finding-num { font-family: 'Krona One', sans-serif; font-size: 2rem; color: rgba(240,84,133,0.3); line-height: 1; margin-bottom: 0.75rem; }
+    .finding-text { font-size: 0.84rem; line-height: 1.75; color: rgba(230,230,218,0.65); }
+    .finding-text strong { color: var(--linen); font-weight: 600; }
+
+    /* TABLE */
+    .table-wrap { overflow-x: auto; margin-top: 2rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    thead tr { border-bottom: 1px solid rgba(230,230,218,0.15); }
+    thead th { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pink); padding: 0.65rem 1rem; text-align: left; }
+    tbody tr { border-bottom: 1px solid rgba(230,230,218,0.06); transition: background .15s; }
+    tbody tr:hover { background: rgba(230,230,218,0.04); }
+    tbody td { padding: 0.75rem 1rem; color: rgba(230,230,218,0.7); }
+    tbody td:first-child { font-weight: 600; color: var(--linen); }
+
+    /* STACK PILLS */
+    .stack-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .stack-pill { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.85rem; border-radius: 999px; border: 1px solid rgba(42,66,38,0.25); color: var(--muted); }
+
+    /* GITHUB CTA */
+    .github-cta { background: var(--pink); padding: 4rem 3rem; text-align: center; }
+    .github-cta h2 { font-family: 'Krona One', sans-serif; font-size: clamp(1.4rem,3vw,2.2rem); color: var(--white); margin-bottom: 0.75rem; }
+    .github-cta p { font-size: 0.88rem; color: rgba(255,255,255,0.8); max-width: 480px; margin: 0 auto 2rem; line-height: 1.7; }
+    .github-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.85rem 2.2rem; border-radius: 999px; background: var(--white); color: var(--pink); text-decoration: none; transition: background .2s, color .2s; }
+    .github-btn:hover { background: var(--forest); color: var(--white); }
+
+    /* FOOTER */
+    footer { background: var(--forest); padding: 1.75rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+    .footer-logo { font-family: 'Krona One', sans-serif; font-size: 0.9rem; color: rgba(230,230,218,0.55); }
+    .footer-copy { font-size: 0.72rem; color: rgba(230,230,218,0.45); }
+    .footer-note { font-size: 0.68rem; color: rgba(230,230,218,0.3); letter-spacing: 0.05em; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .content-section { padding: 3.5rem 1.5rem; }
+      .dark-section { padding: 3.5rem 1.5rem; }
+      .two-col { grid-template-columns: 1fr; gap: 2rem; }
+      .findings-grid { grid-column: 1fr; }
+      .obj-grid { grid-template-columns: 1fr; }
+      footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+      .github-cta { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const T = {
+      en: {
+        nav_portfolio: "← Portfolio",
+        nav_github: "GitHub ↗",
+        banner: "🚧 Under Construction",
+        hero_eyebrow: "Data Science · Supply Chain",
+        hero_title_a: "Demand Forecasting &",
+        hero_title_b: "Inventory Optimization",
+        hero_sub: "Beauty Retail Category · Rossmann Stores Dataset",
+        hero_pills: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Tableau"],
+        marquee: [
+          "DEMAND FORECASTING","INVENTORY OPTIMIZATION","PYTHON","SCIKIT-LEARN","BEAUTY RETAIL",
+          "SUPPLY CHAIN","SAFETY STOCK","LINEAR REGRESSION","ROSSMANN STORES","TABLEAU",
+          "DEMAND FORECASTING","INVENTORY OPTIMIZATION","PYTHON","SCIKIT-LEARN","BEAUTY RETAIL",
+          "SUPPLY CHAIN","SAFETY STOCK","LINEAR REGRESSION","ROSSMANN STORES","TABLEAU",
+        ],
+        context_label: "Business Context",
+        context_h_a: "The cost of getting",
+        context_h_b: "provisioning wrong.",
+        context_p1: "Beauty retail is one of the most operationally demanding categories in consumer goods because demand is seasonal, promo-driven, and unforgiving. A shelf that runs out two weeks before Christmas does not recover that revenue — and a pallet of slow-moving stock sitting in a warehouse after a promotion ends limits working capital with no guarantee of sell-through.",
+        context_p2: "Provisioning teams exist to prevent both of these outcomes: translating demand signals into purchase orders that arrive at the right place, in the right quantity, at the right time. This project models that process end-to-end — from raw sales history to reorder recommendations — using real retail data from a German drugstore chain (Rossmann Stores), the primary distribution channel for mass-market beauty in most European and Latin American markets.",
+        obj_label: "Objective",
+        obj_h_a: "Three questions,",
+        obj_h_b: "one pipeline.",
+        obj_cards: [
+          { num: "01", label: "Forecasting", title: "What will demand look like next week?", body: "Forecast weekly demand at the store level using historical sales, promotional activity, and seasonal patterns." },
+          { num: "02", label: "Peak Detection", title: "When do we need to pre-position stock?", body: "Identify peak demand periods that require advance inventory positioning before demand spikes occur." },
+          { num: "03", label: "Inventory Logic", title: "How much should we hold per store?", body: "Generate safety stock and reorder point recommendations per store based on forecast output at a 95% service level." },
+        ],
+        dataset_label: "Dataset",
+        dataset_h_a: "Rossmann Store Sales",
+        dataset_h_b: "— Kaggle",
+        dataset_link: "Rossmann Store Sales on Kaggle ↗",
+        dataset_p1: "5 representative stores selected from 1,115 across Germany. Approximately 2.5 years of daily sales history (2013–2015). Variables include sales, customers, promotional activity, store type, and holiday indicators.",
+        dataset_p2: "Drugstores are the primary retail channel for mass-market beauty brands — skincare, haircare, cosmetics. The demand dynamics in this dataset (seasonal peaks, promo lift, store-level volatility) directly mirror the planning challenges a provisioning team at a beauty company would face.",
+        eda_label: "Phase 01 — Exploratory Data Analysis",
+        eda_h_a: "Understanding the",
+        eda_h_b: "demand landscape.",
+        eda_p: "Before modeling, the data was explored for seasonal patterns, promotional lift, and store-level variation. December and public holidays emerged as consistent demand drivers. Promotional weeks showed a meaningful lift over baseline across all store types. Store sales volumes varied significantly across the sample, confirming that a single replenishment plan cannot apply uniformly across locations.",
+        eda_captions: [
+          "Total weekly sales — all stores · Clear seasonal peaks visible in December each year",
+          "Promo vs. No Promo · Average daily sales by promotional activity",
+          "Seasonality by month · December demand consistently elevated across the sample",
+          "Store sales distribution — ranked high to low · Wide volume range confirms store-level planning is essential",
+          "Weekly sales — 5 sample stores · Each store has a distinct demand profile and volatility pattern",
+        ],
+        forecast_label: "Phase 02 — Demand Forecasting",
+        forecast_h_a: "Linear regression with",
+        forecast_h_b: "time-series features.",
+        forecast_p1: "A linear regression model was built per store using engineered features: cyclical week-of-year encoding (sine/cosine), promotional flag, December and holiday indicators, and lag features capturing sales 4, 8, and 52 weeks prior.",
+        forecast_p2: "The 52-week lag is particularly important — it anchors each prediction to the same period in the prior year, which is the most reliable seasonal signal available in the dataset. Models were evaluated on a 12-week holdout period with no look-ahead, using MAE and MAPE as accuracy metrics.",
+        forecast_captions: [
+          "Forecast vs. Actual — Weekly Sales · 12-week holdout · Dashed line = model prediction",
+          "Forecast Error Distribution by Store · Errors near zero = unbiased · Direction indicates over/under-stock risk",
+          "Feature Importance — Average Regression Coefficients · Promotional activity is the single strongest demand driver",
+        ],
+        inventory_label: "Phase 03 — Inventory Optimization",
+        inventory_h_a: "From forecast to",
+        inventory_h_b: "reorder recommendation.",
+        inventory_p1: "Forecast outputs were translated into three operational parameters per store, each calculated at a 95% service level with a 2-week supplier lead time assumption.",
+        inventory_p2: "Safety stock — buffer inventory to absorb forecast error volatility: Z × σ(error) × √(lead time). Reorder point — stock level that triggers a new order: avg demand × lead time + safety stock. Peak demand — weeks where forecast exceeds 120% of the store average, flagged for advance ordering.",
+        inventory_captions: [
+          "Safety Stock & Reorder Point by Store · Values in € · 95% service level · 2-week lead time",
+          "Peak Demand Risk Weeks · Red shading = weeks exceeding 120% of store average forecast",
+          "Weeks of Coverage at Reorder Point · Green = meets 3-week target · Red = below target",
+        ],
+        findings_label: "Key Findings",
+        findings_h_a: "What the data",
+        findings_h_b: "actually says.",
+        findings: [
+          { num: "01", text: "<strong>Forecast accuracy ranges from 6.0% to 14.8% MAPE</strong> across the five stores. Store 550 is the hardest to predict (14.8%), requiring a proportionally larger safety stock buffer than more stable stores like Store 262 (6.0% MAPE)." },
+          { num: "02", text: "<strong>Safety stock requirements vary by nearly 10x across the sample</strong> — from €3,228 (Store 897, low-volume, stable) to €30,221 (Store 262, high-volume). Provisioning plans cannot be templated uniformly: each store profile requires its own buffer calculation." },
+          { num: "03", text: "<strong>All five stores sit at approximately 2.2–2.3 weeks of coverage at reorder point</strong> — below the 3-week minimum target. Under current demand and lead time assumptions, every store would be at stockout risk if a supplier delay occurred." },
+          { num: "04", text: "<strong>Promotional activity is the single strongest demand driver</strong>, with a regression coefficient of approximately €9,000 per promotional week. Replenishment plans must treat promotional and baseline demand as separate planning cycles." },
+          { num: "05", text: "<strong>Store 897 is the only store with detected peak demand weeks</strong>, with average peak demand reaching €21,824 — approximately 21% above its baseline weekly average of €18,007. Inventory should be positioned at least 4 weeks in advance of the flagged peak period." },
+          { num: "06", text: "<strong>The 52-week lag feature is the most reliable seasonal anchor</strong> in the model. Prior-year same-week sales outperform shorter lags as a seasonal signal, reflecting the predictable annual rhythm of beauty retail demand." },
+        ],
+        table_label: "Inventory Recommendations",
+        table_h_a: "Reorder parameters",
+        table_h_b: "per store.",
+        table_note: "Calculated at 95% service level · 2-week lead time assumption · values in €",
+        table_headers: ["Store", "Avg Weekly Demand", "Safety Stock", "Reorder Point", "Coverage", "MAPE"],
+        limits_label: "Limitations",
+        limits_h_a: "What this model",
+        limits_h_b: "doesn't capture.",
+        limits_p1: "This model operates at store level in sales value (€). A production provisioning system at a CPG company would plan at SKU level, by channel and geography, with far greater data granularity — including supplier reliability, warehouse capacity, and in-market competitive activity.",
+        limits_p2: "Lead time is assumed constant at 2 weeks. In practice, supplier and logistics lead times are variable and themselves need to be modeled — fixed assumptions will underestimate safety stock requirements in volatile supply environments.",
+        limits_p3: "The promotional calendar is assumed known in advance. In reality, replenishment alignment with commercial promo plans requires close cross-functional coordination between supply chain, brand, and sales teams — a process this model simplifies significantly.",
+        stack_label: "Stack",
+        cta_h: "View the full project on GitHub.",
+        cta_p: "Source code, data pipeline, and all outputs. Built as a portfolio project targeting supply chain and provisioning roles in the consumer goods industry.",
+        cta_btn: "View on GitHub →",
+        footer_note: "portfolio.paulas.world — all rights reserved",
+      },
+      fr: {
+        nav_portfolio: "← Portfolio",
+        nav_github: "GitHub ↗",
+        banner: "🚧 En Construction",
+        hero_eyebrow: "Data Science · Supply Chain",
+        hero_title_a: "Prévisions de Demande &",
+        hero_title_b: "Optimisation des Stocks",
+        hero_sub: "Catégorie Beauté Retail · Données Rossmann Stores",
+        hero_pills: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Tableau"],
+        marquee: [
+          "PRÉVISION DEMANDE","OPTIMISATION STOCKS","PYTHON","SCIKIT-LEARN","BEAUTÉ RETAIL",
+          "SUPPLY CHAIN","STOCK SÉCURITÉ","RÉGRESSION LINÉAIRE","ROSSMANN STORES","TABLEAU",
+          "PRÉVISION DEMANDE","OPTIMISATION STOCKS","PYTHON","SCIKIT-LEARN","BEAUTÉ RETAIL",
+          "SUPPLY CHAIN","STOCK SÉCURITÉ","RÉGRESSION LINÉAIRE","ROSSMANN STORES","TABLEAU",
+        ],
+        context_label: "Contexte Métier",
+        context_h_a: "Le coût d'une mauvaise",
+        context_h_b: "gestion des stocks.",
+        context_p1: "Le retail beauté est l'une des catégories les plus exigeantes opérationnellement dans la grande consommation : la demande est saisonnière, portée par les promotions, et sans droit à l'erreur. Un rayon vide deux semaines avant Noël ne récupère pas ce chiffre d'affaires — et une palette de stock dormant après une promo immobilise du capital sans garantie de vente.",
+        context_p2: "Les équipes d'approvisionnement existent pour éviter ces deux situations : traduire les signaux de demande en commandes qui arrivent au bon endroit, en bonne quantité, au bon moment. Ce projet modélise ce processus de bout en bout — de l'historique des ventes aux recommandations de réapprovisionnement — avec des données réelles d'une chaîne de pharmacies allemande (Rossmann Stores), canal principal du retail beauté en Europe et Amérique latine.",
+        obj_label: "Objectif",
+        obj_h_a: "Trois questions,",
+        obj_h_b: "un pipeline.",
+        obj_cards: [
+          { num: "01", label: "Prévision", title: "À quoi ressemblera la demande la semaine prochaine ?", body: "Prévoir la demande hebdomadaire par magasin à partir de l'historique des ventes, de l'activité promotionnelle et des tendances saisonnières." },
+          { num: "02", label: "Détection des Pics", title: "Quand faut-il positionner les stocks en avance ?", body: "Identifier les périodes de demande élevée nécessitant un positionnement de stock anticipé avant les pics de demande." },
+          { num: "03", label: "Logique de Stock", title: "Combien faut-il maintenir par magasin ?", body: "Générer des recommandations de stock de sécurité et de point de commande par magasin à un niveau de service de 95%." },
+        ],
+        dataset_label: "Données",
+        dataset_h_a: "Rossmann Store Sales",
+        dataset_h_b: "— Kaggle",
+        dataset_link: "Rossmann Store Sales sur Kaggle ↗",
+        dataset_p1: "5 magasins représentatifs sélectionnés parmi 1 115 en Allemagne. Environ 2,5 ans d'historique de ventes quotidiennes (2013–2015). Variables : ventes, clients, activité promotionnelle, type de magasin, indicateurs de jours fériés.",
+        dataset_p2: "Les pharmacies sont le principal canal de distribution pour les marques de beauté mass-market — soins, coiffure, cosmétiques. Les dynamiques de demande de ce jeu de données (pics saisonniers, lift promotionnel, volatilité entre magasins) reflètent directement les défis d'un service approvisionnement dans l'industrie beauté.",
+        eda_label: "Phase 01 — Analyse Exploratoire",
+        eda_h_a: "Comprendre le",
+        eda_h_b: "paysage de la demande.",
+        eda_p: "Avant de modéliser, les données ont été explorées pour identifier les tendances saisonnières, le lift promotionnel et la variation entre magasins. Décembre et les jours fériés sont apparus comme des drivers de demande constants. Les semaines promotionnelles montrent un lift significatif sur tous les types de magasins. Les volumes de vente varient considérablement entre magasins, confirmant qu'un plan de réapprovisionnement unique ne peut pas s'appliquer uniformément.",
+        eda_captions: [
+          "Ventes hebdomadaires totales — tous magasins · Pics saisonniers visibles en décembre chaque année",
+          "Promo vs. Sans Promo · Ventes journalières moyennes selon l'activité promotionnelle",
+          "Saisonnalité par mois · La demande de décembre est systématiquement élevée dans l'échantillon",
+          "Distribution des ventes par magasin — classées du plus élevé au plus bas · L'écart confirme la nécessité d'un plan par magasin",
+          "Ventes hebdomadaires — 5 magasins de l'échantillon · Chaque magasin a un profil de demande et une volatilité distincts",
+        ],
+        forecast_label: "Phase 02 — Prévision de Demande",
+        forecast_h_a: "Régression linéaire avec",
+        forecast_h_b: "features temporelles.",
+        forecast_p1: "Un modèle de régression linéaire a été construit par magasin avec des variables engineered : encodage cyclique de la semaine de l'année (sinus/cosinus), flag promotionnel, indicateurs décembre et jours fériés, et variables lag capturant les ventes à 4, 8 et 52 semaines.",
+        forecast_p2: "Le lag 52 semaines est particulièrement important — il ancre chaque prédiction sur la même période de l'année précédente, le signal saisonnier le plus fiable disponible. Les modèles ont été évalués sur un holdout de 12 semaines sans look-ahead, avec MAE et MAPE comme métriques d'accuracy.",
+        forecast_captions: [
+          "Prévision vs. Réel — Ventes hebdomadaires · Holdout 12 semaines · Pointillés = prédiction du modèle",
+          "Distribution des Erreurs de Prévision par Magasin · Erreurs proches de zéro = non biaisé · Direction = risque sur/sous-stock",
+          "Importance des Features — Coefficients de régression moyens · L'activité promotionnelle est le driver le plus fort",
+        ],
+        inventory_label: "Phase 03 — Optimisation des Stocks",
+        inventory_h_a: "De la prévision à la",
+        inventory_h_b: "recommandation de commande.",
+        inventory_p1: "Les sorties du modèle ont été traduites en trois paramètres opérationnels par magasin, calculés à un niveau de service de 95% avec un délai fournisseur de 2 semaines.",
+        inventory_p2: "Stock de sécurité — buffer pour absorber la volatilité des erreurs de prévision : Z × σ(erreur) × √(délai). Point de commande — niveau de stock déclenchant une nouvelle commande : demande moy. × délai + stock de sécurité. Demande de pointe — semaines où la prévision dépasse 120% de la moyenne du magasin, signalées pour anticipation.",
+        inventory_captions: [
+          "Stock de Sécurité & Point de Commande par Magasin · Valeurs en € · Niveau de service 95% · Délai 2 semaines",
+          "Semaines de Pic de Demande · Zones rouges = semaines dépassant 120% de la prévision moyenne du magasin",
+          "Semaines de Couverture au Point de Commande · Vert = objectif 3 semaines atteint · Rouge = en dessous",
+        ],
+        findings_label: "Résultats Clés",
+        findings_h_a: "Ce que les données",
+        findings_h_b: "révèlent réellement.",
+        findings: [
+          { num: "01", text: "<strong>La précision des prévisions varie de 6,0% à 14,8% MAPE</strong> selon les magasins. Le magasin 550 est le plus difficile à prévoir (14,8%), nécessitant un stock de sécurité proportionnellement plus élevé que les magasins plus stables comme le 262 (6,0% MAPE)." },
+          { num: "02", text: "<strong>Les besoins en stock de sécurité varient presque de 10x dans l'échantillon</strong> — de €3 228 (Magasin 897, faible volume, stable) à €30 221 (Magasin 262, fort volume). Les plans d'approvisionnement ne peuvent pas être standardisés : chaque profil magasin nécessite son propre calcul de buffer." },
+          { num: "03", text: "<strong>Les cinq magasins se situent à environ 2,2–2,3 semaines de couverture au point de commande</strong> — en dessous de l'objectif minimum de 3 semaines. Dans les conditions actuelles, chaque magasin serait en risque de rupture en cas de retard fournisseur." },
+          { num: "04", text: "<strong>L'activité promotionnelle est le driver de demande le plus fort</strong>, avec un coefficient de régression d'environ €9 000 par semaine promotionnelle. Les plans de réapprovisionnement doivent traiter demande promotionnelle et baseline comme deux cycles de planification distincts." },
+          { num: "05", text: "<strong>Le magasin 897 est le seul avec des semaines de pic de demande détectées</strong>, avec une demande de pointe moyenne de €21 824 — environ 21% au-dessus de sa moyenne hebdomadaire de €18 007. Le stock doit être positionné au moins 4 semaines avant la période de pic identifiée." },
+          { num: "06", text: "<strong>Le lag 52 semaines est le signal saisonnier le plus fiable du modèle.</strong> Les ventes de la même semaine de l'année précédente surpassent les lags plus courts comme signal saisonnier, reflétant le rythme annuel prévisible de la demande beauty retail." },
+        ],
+        table_label: "Recommandations de Stock",
+        table_h_a: "Paramètres de commande",
+        table_h_b: "par magasin.",
+        table_note: "Calculé à un niveau de service de 95% · Délai fournisseur 2 semaines · valeurs en €",
+        table_headers: ["Magasin", "Demande Hebdo Moy.", "Stock de Sécurité", "Point de Commande", "Couverture", "MAPE"],
+        limits_label: "Limites",
+        limits_h_a: "Ce que ce modèle",
+        limits_h_b: "ne capture pas.",
+        limits_p1: "Ce modèle opère au niveau magasin en valeur de ventes (€). Un système d'approvisionnement en production dans une entreprise CPG planifierait au niveau SKU, par canal et géographie, avec une granularité de données bien supérieure — notamment la fiabilité fournisseur, la capacité entrepôt et l'activité concurrentielle.",
+        limits_p2: "Le délai fournisseur est supposé constant à 2 semaines. En pratique, les délais logistiques sont variables et doivent eux-mêmes être modélisés — des hypothèses fixes sous-estimeront les besoins en stock de sécurité dans des environnements supply volatils.",
+        limits_p3: "Le calendrier promotionnel est supposé connu à l'avance. En réalité, l'alignement de l'approvisionnement avec les plans commerciaux nécessite une coordination transversale étroite entre supply chain, marques et équipes commerciales — un processus que ce modèle simplifie significativement.",
+        stack_label: "Stack",
+        cta_h: "Voir le projet complet sur GitHub.",
+        cta_p: "Code source, pipeline de données et tous les outputs. Projet portfolio ciblant des rôles supply chain et approvisionnement dans l'industrie des biens de consommation.",
+        cta_btn: "Voir sur GitHub →",
+        footer_note: "portfolio.paulas.world — tous droits réservés",
+      },
+      es: {
+        nav_portfolio: "← Portfolio",
+        nav_github: "GitHub ↗",
+        banner: "🚧 En Construcción",
+        hero_eyebrow: "Ciencia de Datos · Supply Chain",
+        hero_title_a: "Previsión de Demanda &",
+        hero_title_b: "Optimización de Inventario",
+        hero_sub: "Categoría Belleza Retail · Dataset Rossmann Stores",
+        hero_pills: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Tableau"],
+        marquee: [
+          "PREVISIÓN DEMANDA","OPTIMIZACIÓN INVENTARIO","PYTHON","SCIKIT-LEARN","BELLEZA RETAIL",
+          "SUPPLY CHAIN","STOCK DE SEGURIDAD","REGRESIÓN LINEAL","ROSSMANN STORES","TABLEAU",
+          "PREVISIÓN DEMANDA","OPTIMIZACIÓN INVENTARIO","PYTHON","SCIKIT-LEARN","BELLEZA RETAIL",
+          "SUPPLY CHAIN","STOCK DE SEGURIDAD","REGRESIÓN LINEAL","ROSSMANN STORES","TABLEAU",
+        ],
+        context_label: "Contexto de Negocio",
+        context_h_a: "El costo de una mala",
+        context_h_b: "gestión de inventario.",
+        context_p1: "El retail de belleza es una de las categorías operativamente más exigentes en bienes de consumo: la demanda es estacional, impulsada por promociones e implacable. Un estante vacío dos semanas antes de Navidad no recupera esos ingresos — y una paleta de stock lento después de una promoción inmoviliza capital de trabajo sin garantía de venta.",
+        context_p2: "Los equipos de aprovisionamiento existen para evitar ambos escenarios: traducir señales de demanda en órdenes de compra que lleguen al lugar correcto, en la cantidad correcta, en el momento correcto. Este proyecto modela ese proceso de extremo a extremo — desde el historial de ventas hasta las recomendaciones de reorden — usando datos reales de una cadena de farmacias alemana (Rossmann Stores), el canal principal de distribución para belleza mass-market en Europa y América Latina.",
+        obj_label: "Objetivo",
+        obj_h_a: "Tres preguntas,",
+        obj_h_b: "un pipeline.",
+        obj_cards: [
+          { num: "01", label: "Previsión", title: "¿Cómo será la demanda la próxima semana?", body: "Prever la demanda semanal a nivel de tienda usando historial de ventas, actividad promocional y patrones estacionales." },
+          { num: "02", label: "Detección de Picos", title: "¿Cuándo hay que pre-posicionar el stock?", body: "Identificar períodos de demanda elevada que requieren posicionamiento anticipado de inventario antes de los picos." },
+          { num: "03", label: "Lógica de Inventario", title: "¿Cuánto stock mantener por tienda?", body: "Generar recomendaciones de stock de seguridad y punto de reorden por tienda basadas en el modelo a un nivel de servicio del 95%." },
+        ],
+        dataset_label: "Datos",
+        dataset_h_a: "Rossmann Store Sales",
+        dataset_h_b: "— Kaggle",
+        dataset_link: "Rossmann Store Sales en Kaggle ↗",
+        dataset_p1: "5 tiendas representativas seleccionadas de 1.115 en Alemania. Aproximadamente 2,5 años de historial de ventas diarias (2013–2015). Variables: ventas, clientes, actividad promocional, tipo de tienda e indicadores de festivos.",
+        dataset_p2: "Las farmacias son el canal principal de distribución para marcas de belleza mass-market — skincare, haircare, cosméticos. Las dinámicas de demanda de este dataset (picos estacionales, lift promocional, volatilidad por tienda) reflejan directamente los desafíos de un equipo de aprovisionamiento en la industria de belleza.",
+        eda_label: "Fase 01 — Análisis Exploratorio",
+        eda_h_a: "Entendiendo el",
+        eda_h_b: "panorama de la demanda.",
+        eda_p: "Antes de modelar, los datos fueron explorados para identificar patrones estacionales, lift promocional y variación entre tiendas. Diciembre y los días festivos emergieron como drivers de demanda consistentes. Las semanas promocionales mostraron un lift significativo sobre la línea base en todos los tipos de tienda. Los volúmenes de venta variaron significativamente entre tiendas, confirmando que un plan de reposición único no puede aplicarse uniformemente.",
+        eda_captions: [
+          "Ventas semanales totales — todas las tiendas · Picos estacionales visibles en diciembre cada año",
+          "Promo vs. Sin Promo · Ventas diarias promedio según actividad promocional",
+          "Estacionalidad por mes · La demanda de diciembre es consistentemente elevada en el muestreo",
+          "Distribución de ventas por tienda — ranking de mayor a menor · El rango amplio confirma que la planificación debe ser por tienda",
+          "Ventas semanales — 5 tiendas de muestra · Cada tienda tiene un perfil de demanda y volatilidad distinto",
+        ],
+        forecast_label: "Fase 02 — Previsión de Demanda",
+        forecast_h_a: "Regresión lineal con",
+        forecast_h_b: "features de series temporales.",
+        forecast_p1: "Se construyó un modelo de regresión lineal por tienda usando variables engineered: codificación cíclica de la semana del año (seno/coseno), flag promocional, indicadores de diciembre y festivos, y variables lag que capturan ventas a 4, 8 y 52 semanas previas.",
+        forecast_p2: "El lag de 52 semanas es especialmente importante — ancla cada predicción al mismo período del año anterior, la señal estacional más confiable disponible. Los modelos fueron evaluados en un holdout de 12 semanas sin look-ahead, usando MAE y MAPE como métricas de precisión.",
+        forecast_captions: [
+          "Previsión vs. Real — Ventas semanales · Holdout 12 semanas · Línea punteada = predicción del modelo",
+          "Distribución del Error de Previsión por Tienda · Errores cerca de cero = sin sesgo · Dirección indica riesgo de sobre/sub-stock",
+          "Importancia de Features — Coeficientes de regresión promedio · La actividad promocional es el driver más fuerte",
+        ],
+        inventory_label: "Fase 03 — Optimización de Inventario",
+        inventory_h_a: "De la previsión a la",
+        inventory_h_b: "recomendación de reorden.",
+        inventory_p1: "Los outputs del modelo se tradujeron en tres parámetros operativos por tienda, calculados a un nivel de servicio del 95% con un plazo de entrega del proveedor de 2 semanas.",
+        inventory_p2: "Stock de seguridad — buffer para absorber la volatilidad del error de previsión: Z × σ(error) × √(plazo). Punto de reorden — nivel de stock que activa un nuevo pedido: demanda prom. × plazo + stock de seguridad. Demanda pico — semanas donde la previsión supera el 120% del promedio de la tienda, marcadas para ordenar con anticipación.",
+        inventory_captions: [
+          "Stock de Seguridad y Punto de Reorden por Tienda · Valores en € · Nivel de servicio 95% · Plazo 2 semanas",
+          "Semanas de Pico de Demanda · Zonas rojas = semanas que superan el 120% de la previsión media de la tienda",
+          "Semanas de Cobertura al Punto de Reorden · Verde = cumple el objetivo de 3 semanas · Rojo = por debajo del objetivo",
+        ],
+        findings_label: "Hallazgos Clave",
+        findings_h_a: "Lo que los datos",
+        findings_h_b: "realmente dicen.",
+        findings: [
+          { num: "01", text: "<strong>La precisión de la previsión oscila entre 6,0% y 14,8% MAPE</strong> en las cinco tiendas. La tienda 550 es la más difícil de predecir (14,8%), requiriendo un stock de seguridad proporcionalmente mayor que tiendas más estables como la 262 (6,0% MAPE)." },
+          { num: "02", text: "<strong>Los requerimientos de stock de seguridad varían casi 10x en el muestreo</strong> — de €3.228 (Tienda 897, bajo volumen, estable) a €30.221 (Tienda 262, alto volumen). Los planes de aprovisionamiento no pueden ser estandarizados: cada perfil de tienda requiere su propio cálculo de buffer." },
+          { num: "03", text: "<strong>Las cinco tiendas tienen aproximadamente 2,2–2,3 semanas de cobertura en el punto de reorden</strong> — por debajo del objetivo mínimo de 3 semanas. Con las condiciones actuales, cada tienda estaría en riesgo de desabasto si ocurre un retraso del proveedor." },
+          { num: "04", text: "<strong>La actividad promocional es el driver de demanda más fuerte</strong>, con un coeficiente de regresión de aproximadamente €9.000 por semana promocional. Los planes de reposición deben tratar la demanda promocional y la base como ciclos de planificación separados." },
+          { num: "05", text: "<strong>La tienda 897 es la única con semanas de pico de demanda detectadas</strong>, con una demanda pico promedio de €21.824 — aproximadamente un 21% por encima de su promedio semanal base de €18.007. El inventario debe posicionarse al menos 4 semanas antes del período pico identificado." },
+          { num: "06", text: "<strong>El lag de 52 semanas es el ancla estacional más confiable del modelo.</strong> Las ventas de la misma semana del año anterior superan a los lags más cortos como señal estacional, reflejando el ritmo anual predecible de la demanda en belleza retail." },
+        ],
+        table_label: "Recomendaciones de Inventario",
+        table_h_a: "Parámetros de reorden",
+        table_h_b: "por tienda.",
+        table_note: "Calculado a nivel de servicio del 95% · Plazo de entrega 2 semanas · valores en €",
+        table_headers: ["Tienda", "Demanda Semanal Prom.", "Stock de Seguridad", "Punto de Reorden", "Cobertura", "MAPE"],
+        limits_label: "Limitaciones",
+        limits_h_a: "Lo que este modelo",
+        limits_h_b: "no captura.",
+        limits_p1: "Este modelo opera a nivel de tienda en valor de ventas (€). Un sistema de aprovisionamiento en producción en una empresa CPG planificaría a nivel de SKU, por canal y geografía, con mayor granularidad de datos — incluyendo confiabilidad del proveedor, capacidad de almacén y actividad competitiva.",
+        limits_p2: "El plazo de entrega se asume constante en 2 semanas. En la práctica, los plazos logísticos son variables y deben modelarse — supuestos fijos subestimarán los requerimientos de stock de seguridad en entornos de supply chain volátiles.",
+        limits_p3: "El calendario promocional se asume conocido de antemano. En la realidad, la alineación del aprovisionamiento con los planes comerciales requiere coordinación interfuncional estrecha entre supply chain, marcas y equipos de ventas — un proceso que este modelo simplifica significativamente.",
+        stack_label: "Stack",
+        cta_h: "Ver el proyecto completo en GitHub.",
+        cta_p: "Código fuente, pipeline de datos y todos los outputs. Proyecto portfolio orientado a roles de supply chain y aprovisionamiento en la industria de bienes de consumo.",
+        cta_btn: "Ver en GitHub →",
+        footer_note: "portfolio.paulas.world — todos los derechos reservados",
+      },
+    };
+
+    const TABLE_DATA = [
+      ["Store 1",   "€25,280",  "€4,442",  "€55,001",  "2.2 wks", "6.5%"],
+      ["Store 85",  "€52,437",  "€13,940", "€118,815", "2.3 wks", "8.3%"],
+      ["Store 262", "€145,116", "€30,221", "€320,453", "2.2 wks", "6.0%"],
+      ["Store 550", "€37,388",  "€12,743", "€87,519",  "2.3 wks", "14.8%"],
+      ["Store 897", "€18,007",  "€3,228",  "€39,241",  "2.2 wks", "7.3%"],
+    ];
+
+    const EDA_IMGS   = ["01_total_weekly_sales","02_promo_impact","03_seasonality_by_month","04_store_distribution","05_sample_stores"];
+    const FORE_IMGS  = ["01_forecast_vs_actual","02_error_distribution","03_feature_importance"];
+    const INV_IMGS   = ["01_safety_stock_reorder","02_peak_demand_weeks","03_weeks_coverage"];
+    const STACK      = ["Python","Pandas","NumPy","Scikit-learn","Matplotlib","SciPy","Tableau","GitHub"];
+
+    function useFadeUp() {
+      const ref = useRef(null);
+      useEffect(() => {
+        const el = ref.current; if (!el) return;
+        const obs = new IntersectionObserver(([e]) => {
+          if (e.isIntersecting) { el.classList.add('visible'); obs.disconnect(); }
+        }, { threshold: 0.08 });
+        obs.observe(el);
+        return () => obs.disconnect();
+      }, []);
+      return ref;
+    }
+
+    function App() {
+      const [lang, setLang] = useState('en');
+      const t = T[lang];
+
+      useEffect(() => {
+        const cur = document.getElementById('cursor'); if (!cur) return;
+        let rx = 0, ry = 0;
+        const mv = e => { rx = e.clientX; ry = e.clientY; };
+        window.addEventListener('mousemove', mv);
+        let raf;
+        const loop = () => { cur.style.left = rx+'px'; cur.style.top = ry+'px'; raf = requestAnimationFrame(loop); };
+        raf = requestAnimationFrame(loop);
+        const on  = () => cur.classList.add('expand');
+        const off = () => cur.classList.remove('expand');
+        document.querySelectorAll('a, button').forEach(el => {
+          el.addEventListener('mouseenter', on);
+          el.addEventListener('mouseleave', off);
+        });
+        return () => { window.removeEventListener('mousemove', mv); cancelAnimationFrame(raf); };
+      }, []);
+
+      const r1 = useFadeUp(), r2 = useFadeUp(), r3 = useFadeUp(), r4 = useFadeUp(),
+            r5 = useFadeUp(), r6 = useFadeUp(), r7 = useFadeUp(), r8 = useFadeUp(),
+            r9 = useFadeUp(), r10= useFadeUp(), r11= useFadeUp();
+
+      return (
+        <>
+          {/* BANNER */}
+          <div className="under-construction">{t.banner}</div>
+
+          {/* NAV */}
+          <nav>
+            <a href="https://paulas.world" className="nav-logo">paulas.world</a>
+            <div className="nav-right">
+              <a href="index.html" className="nav-pill">{t.nav_portfolio}</a>
+              <a href="https://github.com/paulazmbrn/provisioning-project" target="_blank" rel="noopener noreferrer" className="nav-pill">{t.nav_github}</a>
+              <button className={`lang-toggle ${lang==='en'?'active':''}`} onClick={()=>setLang('en')}>EN</button>
+              <button className={`lang-toggle ${lang==='fr'?'active':''}`} onClick={()=>setLang('fr')}>FR</button>
+              <button className={`lang-toggle ${lang==='es'?'active':''}`} onClick={()=>setLang('es')}>ES</button>
+            </div>
+          </nav>
+
+          {/* HERO */}
+          <section className="hero">
+            <div className="hero-eyebrow">{t.hero_eyebrow}</div>
+            <h1 className="hero-title">{t.hero_title_a} <em>{t.hero_title_b}</em></h1>
+            <p className="hero-sub">{t.hero_sub}</p>
+            <div className="hero-pills">
+              {t.hero_pills.map((p,i) => <span key={i} className="hero-pill">{p}</span>)}
+            </div>
+          </section>
+
+          {/* MARQUEE */}
+          <div className="marquee-wrap" aria-hidden="true">
+            <div className="marquee-track">
+              {t.marquee.map((item,i) => <span key={i} className="marquee-item">{item}</span>)}
+            </div>
+          </div>
+
+          {/* BUSINESS CONTEXT */}
+          <section className="content-section">
+            <div className="two-col fade-up" ref={r1}>
+              <div className="two-col-left">
+                <div className="section-label">{t.context_label}</div>
+                <h2>{t.context_h_a}<br/><em>{t.context_h_b}</em></h2>
+              </div>
+              <div className="body-text">
+                <p>{t.context_p1}</p>
+                <p>{t.context_p2}</p>
+              </div>
+            </div>
+          </section>
+
+          {/* OBJECTIVE + DATASET */}
+          <div className="dark-section">
+            <div className="dark-inner">
+              <div className="fade-up" ref={r2}>
+                <div className="section-label">{t.obj_label}</div>
+                <h2 className="section-heading">{t.obj_h_a}<br/><em>{t.obj_h_b}</em></h2>
+                <div className="obj-grid">
+                  {t.obj_cards.map((c,i) => (
+                    <div key={i} className="phase-card" style={{marginBottom:0}}>
+                      <div className="phase-num">{c.num}</div>
+                      <div className="phase-label">{c.label}</div>
+                      <div className="phase-title">{c.title}</div>
+                      <div className="phase-body">{c.body}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="fade-up" ref={r3} style={{marginTop:'4rem'}}>
+                <div className="section-label">{t.dataset_label}</div>
+                <h2 className="section-heading"><em>{t.dataset_h_a}</em>{t.dataset_h_b}</h2>
+                <div className="body-text">
+                  <p><a href="https://www.kaggle.com/competitions/rossmann-store-sales/overview" target="_blank" rel="noopener noreferrer">{t.dataset_link}</a></p>
+                  <p>{t.dataset_p1}</p>
+                  <p>{t.dataset_p2}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* EDA */}
+          <section className="content-section">
+            <div className="fade-up" ref={r4}>
+              <div className="section-label">{t.eda_label}</div>
+              <h2 className="section-heading">{t.eda_h_a}<br/><em>{t.eda_h_b}</em></h2>
+              <div className="body-text"><p>{t.eda_p}</p></div>
+              <div className="img-block">
+                {EDA_IMGS.map((img,i) => (
+                  <div key={i}>
+                    <img src={`assets/provisioning/${img}.png`} alt={t.eda_captions[i]} loading="lazy" />
+                    <p className="img-caption-light">{t.eda_captions[i]}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* FORECASTING */}
+          <div className="dark-section">
+            <div className="dark-inner">
+              <div className="fade-up" ref={r5}>
+                <div className="section-label">{t.forecast_label}</div>
+                <h2 className="section-heading">{t.forecast_h_a}<br/><em>{t.forecast_h_b}</em></h2>
+                <div className="body-text">
+                  <p>{t.forecast_p1}</p>
+                  <p>{t.forecast_p2}</p>
+                </div>
+                <div className="img-block">
+                  {FORE_IMGS.map((img,i) => (
+                    <div key={i}>
+                      <img src={`assets/provisioning/${img}.png`} alt={t.forecast_captions[i]} loading="lazy" />
+                      <p className="img-caption-dark">{t.forecast_captions[i]}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* INVENTORY */}
+          <section className="content-section">
+            <div className="fade-up" ref={r6}>
+              <div className="section-label">{t.inventory_label}</div>
+              <h2 className="section-heading">{t.inventory_h_a}<br/><em>{t.inventory_h_b}</em></h2>
+              <div className="body-text">
+                <p>{t.inventory_p1}</p>
+                <p>{t.inventory_p2}</p>
+              </div>
+              <div className="img-block">
+                {INV_IMGS.map((img,i) => (
+                  <div key={i}>
+                    <img src={`assets/provisioning/${img}.png`} alt={t.inventory_captions[i]} loading="lazy" />
+                    <p className="img-caption-light">{t.inventory_captions[i]}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* FINDINGS + TABLE */}
+          <div className="dark-section">
+            <div className="dark-inner">
+              <div className="fade-up" ref={r7}>
+                <div className="section-label">{t.findings_label}</div>
+                <h2 className="section-heading">{t.findings_h_a}<br/><em>{t.findings_h_b}</em></h2>
+                <div className="findings-grid">
+                  {t.findings.map((f,i) => (
+                    <div key={i} className="finding-card">
+                      <div className="finding-num">{f.num}</div>
+                      <div className="finding-text" dangerouslySetInnerHTML={{__html: f.text}} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="fade-up" ref={r8} style={{marginTop:'4rem'}}>
+                <div className="section-label">{t.table_label}</div>
+                <h2 className="section-heading" style={{marginBottom:'0.5rem'}}>{t.table_h_a}<br/><em>{t.table_h_b}</em></h2>
+                <p style={{fontSize:'0.75rem',color:'rgba(230,230,218,0.35)',letterSpacing:'0.05em',marginBottom:'1rem'}}>{t.table_note}</p>
+                <div className="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>{t.table_headers.map((h,i) => <th key={i}>{h}</th>)}</tr>
+                    </thead>
+                    <tbody>
+                      {TABLE_DATA.map((row,i) => (
+                        <tr key={i}>{row.map((cell,j) => <td key={j}>{cell}</td>)}</tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* LIMITATIONS */}
+          <section className="content-section">
+            <div className="two-col fade-up" ref={r9}>
+              <div className="two-col-left">
+                <div className="section-label">{t.limits_label}</div>
+                <h2>{t.limits_h_a}<br/><em>{t.limits_h_b}</em></h2>
+              </div>
+              <div className="body-text">
+                <p>{t.limits_p1}</p>
+                <p>{t.limits_p2}</p>
+                <p>{t.limits_p3}</p>
+                <div className="stack-pills" style={{marginTop:'2rem'}}>
+                  <div className="section-label" style={{width:'100%',marginBottom:'0.5rem'}}>{t.stack_label}</div>
+                  {STACK.map((s,i) => <span key={i} className="stack-pill">{s}</span>)}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* GITHUB CTA */}
+          <div className="github-cta">
+            <h2>{t.cta_h}</h2>
+            <p>{t.cta_p}</p>
+            <a href="https://github.com/paulazmbrn/provisioning-project" target="_blank" rel="noopener noreferrer" className="github-btn">{t.cta_btn}</a>
+          </div>
+
+          {/* FOOTER */}
+          <footer>
+            <span className="footer-logo">paulas.world</span>
+            <span className="footer-copy">© 2026 Paula Zambrano</span>
+            <span className="footer-note">{t.footer_note}</span>
+          </footer>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

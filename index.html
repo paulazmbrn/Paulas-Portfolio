@@ -208,6 +208,14 @@
             tools: ["Substack", "Editorial", "Golf Business"],
             link: "https://thenewpar.substack.com", wide: true
           },
+          {
+            num: "05",
+            tag: "Data Science · Supply Chain",
+            title: "Demand Forecasting & Inventory Optimization",
+            desc: "End-to-end demand forecasting and inventory optimization for beauty retail using the Rossmann Stores dataset. EDA → linear regression model with lag features and cyclical encoding → safety stock and reorder point recommendations per store at 95% service level.",
+            tools: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Tableau"],
+            link: "provisioning-project.html", link2: "https://github.com/paulazmbrn/provisioning-project", wide: true
+          },
         ],
         divider_label: "About this page",
         divider_h_a: "Always",
@@ -276,6 +284,14 @@
             tools: ["Substack", "Éditorial", "Business du Golf"],
             link: "https://thenewpar.substack.com", wide: true
           },
+          {
+            num: "05",
+            tag: "Data Science · Supply Chain",
+            title: "Prévisions de Demande & Optimisation des Stocks",
+            desc: "Prévisions de demande et optimisation des stocks pour le retail beauté, de bout en bout, à partir des données Rossmann Stores. EDA → modèle de régression linéaire avec variables lag et encodage cyclique → recommandations de stock de sécurité et point de commande par magasin à un niveau de service de 95%.",
+            tools: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Tableau"],
+            link: "provisioning-project.html", link2: "https://github.com/paulazmbrn/provisioning-project", wide: true
+          },
         ],
         divider_label: "À propos de cette page",
         divider_h_a: "Toujours",
@@ -343,6 +359,14 @@
             desc: "Una publicación de golf que cubre el negocio del golf, las operaciones de campo, el desarrollo de jugadores y la evolución del sector. Ensayos sobre estrategia, tecnología y el futuro del juego.",
             tools: ["Substack", "Editorial", "Negocio del Golf"],
             link: "https://thenewpar.substack.com", wide: true
+          },
+          {
+            num: "05",
+            tag: "Ciencia de Datos · Supply Chain",
+            title: "Previsión de Demanda & Optimización de Inventario",
+            desc: "Previsión de demanda y optimización de inventario para retail de belleza, de extremo a extremo, usando los datos de Rossmann Stores. EDA → modelo de regresión lineal con variables lag y codificación cíclica → recomendaciones de stock de seguridad y punto de reorden por tienda a un nivel de servicio del 95%.",
+            tools: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Tableau"],
+            link: "provisioning-project.html", link2: "https://github.com/paulazmbrn/provisioning-project", wide: true
           },
         ],
         divider_label: "Sobre esta página",
@@ -465,9 +489,16 @@
                     <div className="card-tools">
                       {p.tools.map((tool, ti) => <span key={ti} className="card-tool">{tool}</span>)}
                     </div>
-                    <a href={p.link} className="card-link" target="_blank" rel="noopener noreferrer">
-                      {t.card_link}
-                    </a>
+                    <div style={{display:'flex',gap:'1.25rem',alignItems:'center',flexWrap:'wrap'}}>
+                      <a href={p.link} className="card-link" target={p.link.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer">
+                        {t.card_link}
+                      </a>
+                      {p.link2 && (
+                        <a href={p.link2} className="card-link" target="_blank" rel="noopener noreferrer" style={{color:'rgba(230,230,218,0.4)'}}>
+                          GitHub ↗
+                        </a>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
