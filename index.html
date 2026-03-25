@@ -88,11 +88,10 @@
     .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
     .portfolio-card { background: rgba(230,230,218,0.06); border: 1px solid rgba(230,230,218,0.12); border-radius: 1.5rem; padding: 2rem; display: flex; flex-direction: column; transition: background .25s, border-color .25s; }
     .portfolio-card:hover { background: rgba(230,230,218,0.1); border-color: rgba(240,84,133,0.35); }
-    .portfolio-card.wide { grid-column: span 2; }
     .card-num { font-family: 'Krona One', sans-serif; font-size: 3.5rem; color: rgba(240,84,133,0.18); line-height: 1; margin-bottom: 1.25rem; }
     .card-tag { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.5rem; }
     .card-title { font-family: 'Krona One', sans-serif; font-size: 1.1rem; color: var(--linen); margin-bottom: 0.75rem; line-height: 1.25; }
-    .portfolio-card.wide .card-title { font-size: 1.35rem; }
+    .portfolio-card.wide .card-title { font-size: 1.1rem; }
     .card-desc { font-size: 0.82rem; line-height: 1.7; color: rgba(230,230,218,0.55); flex: 1; }
     .card-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.5rem; }
     .card-tool { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.7rem; border-radius: 999px; border: 1px solid rgba(230,230,218,0.18); color: rgba(230,230,218,0.5); }
@@ -124,7 +123,6 @@
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .portfolio-grid { grid-template-columns: 1fr 1fr; }
-      .portfolio-card.wide { grid-column: span 2; }
     }
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
