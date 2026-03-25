@@ -98,6 +98,7 @@
     .card-tool { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.7rem; border-radius: 999px; border: 1px solid rgba(230,230,218,0.18); color: rgba(230,230,218,0.5); }
     .card-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); text-decoration: none; transition: gap .2s; }
     .card-link:hover { gap: 0.7rem; }
+    .coming-soon-badge { display: inline-flex; align-items: center; margin-top: 1.5rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(230,230,218,0.3); border: 1px solid rgba(230,230,218,0.15); border-radius: 999px; padding: 0.3rem 0.85rem; }
 
     /* DIVIDER */
     .divider-section { padding: 6rem 3rem; max-width: 900px; margin: 0 auto; }
@@ -178,43 +179,35 @@
         projects: [
           {
             num: "01",
-            tag: "Golf Operations · Data Science",
-            title: "Golf Club Financial Analysis",
-            desc: "A quantitative revenue analysis of a luxury golf operation in Los Cabos, Mexico. Models pricing elasticity across tee time categories, identifies revenue optimization opportunities, and builds a seasonal demand forecast. Built with Python and Excel financial modeling.",
-            tools: ["Python", "Excel", "Financial Modeling", "Pricing Analysis"],
-            link: "#", wide: true
-          },
-          {
-            num: "02",
-            tag: "Market Analysis",
-            title: "Luxury Fashion Market Analysis",
-            desc: "A strategic market report analyzing the competitive landscape of the global luxury fashion industry. Deep-dive into LVMH, Kering, and Hermès — covering revenue mix, brand portfolio strategy, margin dynamics, and market positioning. Structured after the Business of Fashion 2024 State of Fashion report.",
-            tools: ["Python", "Tableau", "Market Analysis", "Competitive Strategy"],
-            link: "#", wide: false
-          },
-          {
-            num: "03",
-            tag: "Brand Strategy · Market Analysis",
-            title: "The New Luxury Consumer: Sports, Access & Experience",
-            desc: "A strategic market analysis examining the convergence of luxury brands and premium sports — golf, F1, and tennis. Analyzes how the modern luxury consumer is shifting spend from material goods toward curated experiences, access, and time. Covers brand strategy (LVMH, Kering, Rolex), sponsorship growth trends, consumer psychographics, and where the white space lies for luxury houses entering the sports vertical.",
-            tools: ["Python", "Tableau", "Market Analysis", "Brand Strategy"],
-            link: "#", wide: false
-          },
-          {
-            num: "04",
-            tag: "Writing · Golf",
-            title: "The New Par",
-            desc: "A golf publication covering the business of golf, course operations, player development, and the evolving industry landscape. Essays on strategy, technology, and the future of the game.",
-            tools: ["Substack", "Editorial", "Golf Business"],
-            link: "https://thenewpar.substack.com", wide: true
-          },
-          {
-            num: "05",
             tag: "Data Science · Supply Chain",
             title: "Demand Forecasting & Inventory Optimization",
             desc: "End-to-end demand forecasting and inventory optimization for beauty retail using the Rossmann Stores dataset. EDA → linear regression model with lag features and cyclical encoding → safety stock and reorder point recommendations per store at 95% service level.",
             tools: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Tableau"],
             link: "provisioning-project.html", link2: "https://github.com/paulazmbrn/provisioning-project", wide: true
+          },
+          {
+            num: "02",
+            tag: "Golf Operations · Data Science",
+            title: "Golf Club Financial Analysis",
+            desc: "A quantitative revenue analysis of a luxury golf operation in Los Cabos, Mexico. Models pricing elasticity across tee time categories, identifies revenue optimization opportunities, and builds a seasonal demand forecast. Built with Python and Excel financial modeling.",
+            tools: ["Python", "Excel", "Financial Modeling", "Pricing Analysis"],
+            link: "#", wide: false, comingSoon: true
+          },
+          {
+            num: "03",
+            tag: "Market Analysis",
+            title: "Luxury Fashion Market Analysis",
+            desc: "A strategic market report analyzing the competitive landscape of the global luxury fashion industry. Deep-dive into LVMH, Kering, and Hermès — covering revenue mix, brand portfolio strategy, margin dynamics, and market positioning. Structured after the Business of Fashion 2024 State of Fashion report.",
+            tools: ["Python", "Tableau", "Market Analysis", "Competitive Strategy"],
+            link: "#", wide: false, comingSoon: true
+          },
+          {
+            num: "04",
+            tag: "Brand Strategy · Market Analysis",
+            title: "The New Luxury Consumer: Sports, Access & Experience",
+            desc: "A strategic market analysis examining the convergence of luxury brands and premium sports — golf, F1, and tennis. Analyzes how the modern luxury consumer is shifting spend from material goods toward curated experiences, access, and time. Covers brand strategy (LVMH, Kering, Rolex), sponsorship growth trends, consumer psychographics, and where the white space lies for luxury houses entering the sports vertical.",
+            tools: ["Python", "Tableau", "Market Analysis", "Brand Strategy"],
+            link: "#", wide: false, comingSoon: true
           },
         ],
         divider_label: "About this page",
@@ -254,43 +247,35 @@
         projects: [
           {
             num: "01",
-            tag: "Opérations Golf · Data Science",
-            title: "Analyse Financière d'un Club de Golf",
-            desc: "Une analyse quantitative des revenus d'une opération de golf de luxe à Los Cabos, Mexique. Modélise l'élasticité-prix sur les catégories de départs, identifie les opportunités d'optimisation des revenus et construit une prévision de demande saisonnière. Développé avec Python et modélisation financière Excel.",
-            tools: ["Python", "Excel", "Modélisation Financière", "Analyse des Prix"],
-            link: "#", wide: true
-          },
-          {
-            num: "02",
-            tag: "Analyse de Marché",
-            title: "Analyse du Marché de la Mode de Luxe",
-            desc: "Un rapport de marché stratégique analysant le paysage concurrentiel de l'industrie mondiale de la mode de luxe. Analyse approfondie de LVMH, Kering et Hermès — couvrant la composition des revenus, la stratégie de portefeuille de marques, la dynamique des marges et le positionnement marché. Structuré d'après le rapport Business of Fashion 2024 State of Fashion.",
-            tools: ["Python", "Tableau", "Analyse de Marché", "Stratégie Concurrentielle"],
-            link: "#", wide: false
-          },
-          {
-            num: "03",
-            tag: "Stratégie de Marque · Analyse de Marché",
-            title: "Le Nouveau Consommateur de Luxe : Sports, Accès et Expérience",
-            desc: "Une analyse de marché stratégique examinant la convergence des marques de luxe et des sports premium — golf, F1 et tennis. Analyse comment le consommateur de luxe moderne déplace ses dépenses des biens matériels vers des expériences curatées, l'accès et le temps. Couvre la stratégie de marque (LVMH, Kering, Rolex), les tendances de croissance des sponsorings, la psychographie des consommateurs et les espaces disponibles pour les maisons de luxe entrant dans le vertical sportif.",
-            tools: ["Python", "Tableau", "Analyse de Marché", "Stratégie de Marque"],
-            link: "#", wide: false
-          },
-          {
-            num: "04",
-            tag: "Écriture · Golf",
-            title: "The New Par",
-            desc: "Une publication golf couvrant le business du golf, les opérations de parcours, le développement des joueurs et l'évolution du secteur. Essais sur la stratégie, la technologie et l'avenir du jeu.",
-            tools: ["Substack", "Éditorial", "Business du Golf"],
-            link: "https://thenewpar.substack.com", wide: true
-          },
-          {
-            num: "05",
             tag: "Data Science · Supply Chain",
             title: "Prévisions de Demande & Optimisation des Stocks",
             desc: "Prévisions de demande et optimisation des stocks pour le retail beauté, de bout en bout, à partir des données Rossmann Stores. EDA → modèle de régression linéaire avec variables lag et encodage cyclique → recommandations de stock de sécurité et point de commande par magasin à un niveau de service de 95%.",
             tools: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Tableau"],
             link: "provisioning-project.html", link2: "https://github.com/paulazmbrn/provisioning-project", wide: true
+          },
+          {
+            num: "02",
+            tag: "Opérations Golf · Data Science",
+            title: "Analyse Financière d'un Club de Golf",
+            desc: "Une analyse quantitative des revenus d'une opération de golf de luxe à Los Cabos, Mexique. Modélise l'élasticité-prix sur les catégories de départs, identifie les opportunités d'optimisation des revenus et construit une prévision de demande saisonnière. Développé avec Python et modélisation financière Excel.",
+            tools: ["Python", "Excel", "Modélisation Financière", "Analyse des Prix"],
+            link: "#", wide: false, comingSoon: true
+          },
+          {
+            num: "03",
+            tag: "Analyse de Marché",
+            title: "Analyse du Marché de la Mode de Luxe",
+            desc: "Un rapport de marché stratégique analysant le paysage concurrentiel de l'industrie mondiale de la mode de luxe. Analyse approfondie de LVMH, Kering et Hermès — couvrant la composition des revenus, la stratégie de portefeuille de marques, la dynamique des marges et le positionnement marché. Structuré d'après le rapport Business of Fashion 2024 State of Fashion.",
+            tools: ["Python", "Tableau", "Analyse de Marché", "Stratégie Concurrentielle"],
+            link: "#", wide: false, comingSoon: true
+          },
+          {
+            num: "04",
+            tag: "Stratégie de Marque · Analyse de Marché",
+            title: "Le Nouveau Consommateur de Luxe : Sports, Accès et Expérience",
+            desc: "Une analyse de marché stratégique examinant la convergence des marques de luxe et des sports premium — golf, F1 et tennis. Analyse comment le consommateur de luxe moderne déplace ses dépenses des biens matériels vers des expériences curatées, l'accès et le temps. Couvre la stratégie de marque (LVMH, Kering, Rolex), les tendances de croissance des sponsorings, la psychographie des consommateurs et les espaces disponibles pour les maisons de luxe entrant dans le vertical sportif.",
+            tools: ["Python", "Tableau", "Analyse de Marché", "Stratégie de Marque"],
+            link: "#", wide: false, comingSoon: true
           },
         ],
         divider_label: "À propos de cette page",
@@ -330,43 +315,35 @@
         projects: [
           {
             num: "01",
-            tag: "Operaciones de Golf · Ciencia de Datos",
-            title: "Análisis Financiero de Club de Golf",
-            desc: "Un análisis cuantitativo de ingresos de una operación de golf de lujo en Los Cabos, México. Modela la elasticidad de precios en categorías de tee times, identifica oportunidades de optimización de ingresos y construye una previsión de demanda estacional. Desarrollado con Python y modelado financiero en Excel.",
-            tools: ["Python", "Excel", "Modelado Financiero", "Análisis de Precios"],
-            link: "#", wide: true
-          },
-          {
-            num: "02",
-            tag: "Análisis de Mercado",
-            title: "Análisis del Mercado de Moda de Lujo",
-            desc: "Un informe de mercado estratégico que analiza el panorama competitivo de la industria mundial de la moda de lujo. Análisis profundo de LVMH, Kering y Hermès — cubriendo la composición de ingresos, estrategia de cartera de marcas, dinámica de márgenes y posicionamiento en el mercado. Estructurado según el informe Business of Fashion 2024 State of Fashion.",
-            tools: ["Python", "Tableau", "Análisis de Mercado", "Estrategia Competitiva"],
-            link: "#", wide: false
-          },
-          {
-            num: "03",
-            tag: "Estrategia de Marca · Análisis de Mercado",
-            title: "El Nuevo Consumidor de Lujo: Deportes, Acceso y Experiencia",
-            desc: "Un análisis de mercado estratégico que examina la convergencia de marcas de lujo y deportes premium — golf, F1 y tenis. Analiza cómo el consumidor de lujo moderno está desplazando su gasto de bienes materiales hacia experiencias curadas, acceso y tiempo. Cubre estrategia de marca (LVMH, Kering, Rolex), tendencias de crecimiento en patrocinios, psicografía del consumidor y los espacios disponibles para las casas de lujo que entran en el vertical deportivo.",
-            tools: ["Python", "Tableau", "Análisis de Mercado", "Estrategia de Marca"],
-            link: "#", wide: false
-          },
-          {
-            num: "04",
-            tag: "Escritura · Golf",
-            title: "The New Par",
-            desc: "Una publicación de golf que cubre el negocio del golf, las operaciones de campo, el desarrollo de jugadores y la evolución del sector. Ensayos sobre estrategia, tecnología y el futuro del juego.",
-            tools: ["Substack", "Editorial", "Negocio del Golf"],
-            link: "https://thenewpar.substack.com", wide: true
-          },
-          {
-            num: "05",
             tag: "Ciencia de Datos · Supply Chain",
             title: "Previsión de Demanda & Optimización de Inventario",
             desc: "Previsión de demanda y optimización de inventario para retail de belleza, de extremo a extremo, usando los datos de Rossmann Stores. EDA → modelo de regresión lineal con variables lag y codificación cíclica → recomendaciones de stock de seguridad y punto de reorden por tienda a un nivel de servicio del 95%.",
             tools: ["Python", "Scikit-learn", "Pandas", "Matplotlib", "Tableau"],
             link: "provisioning-project.html", link2: "https://github.com/paulazmbrn/provisioning-project", wide: true
+          },
+          {
+            num: "02",
+            tag: "Operaciones de Golf · Ciencia de Datos",
+            title: "Análisis Financiero de Club de Golf",
+            desc: "Un análisis cuantitativo de ingresos de una operación de golf de lujo en Los Cabos, México. Modela la elasticidad de precios en categorías de tee times, identifica oportunidades de optimización de ingresos y construye una previsión de demanda estacional. Desarrollado con Python y modelado financiero en Excel.",
+            tools: ["Python", "Excel", "Modelado Financiero", "Análisis de Precios"],
+            link: "#", wide: false, comingSoon: true
+          },
+          {
+            num: "03",
+            tag: "Análisis de Mercado",
+            title: "Análisis del Mercado de Moda de Lujo",
+            desc: "Un informe de mercado estratégico que analiza el panorama competitivo de la industria mundial de la moda de lujo. Análisis profundo de LVMH, Kering y Hermès — cubriendo la composición de ingresos, estrategia de cartera de marcas, dinámica de márgenes y posicionamiento en el mercado. Estructurado según el informe Business of Fashion 2024 State of Fashion.",
+            tools: ["Python", "Tableau", "Análisis de Mercado", "Estrategia Competitiva"],
+            link: "#", wide: false, comingSoon: true
+          },
+          {
+            num: "04",
+            tag: "Estrategia de Marca · Análisis de Mercado",
+            title: "El Nuevo Consumidor de Lujo: Deportes, Acceso y Experiencia",
+            desc: "Un análisis de mercado estratégico que examina la convergencia de marcas de lujo y deportes premium — golf, F1 y tenis. Analiza cómo el consumidor de lujo moderno está desplazando su gasto de bienes materiales hacia experiencias curadas, acceso y tiempo. Cubre estrategia de marca (LVMH, Kering, Rolex), tendencias de crecimiento en patrocinios, psicografía del consumidor y los espacios disponibles para las casas de lujo que entran en el vertical deportivo.",
+            tools: ["Python", "Tableau", "Análisis de Mercado", "Estrategia de Marca"],
+            link: "#", wide: false, comingSoon: true
           },
         ],
         divider_label: "Sobre esta página",
@@ -489,16 +466,20 @@
                     <div className="card-tools">
                       {p.tools.map((tool, ti) => <span key={ti} className="card-tool">{tool}</span>)}
                     </div>
-                    <div style={{display:'flex',gap:'1.25rem',alignItems:'center',flexWrap:'wrap'}}>
-                      <a href={p.link} className="card-link" target={p.link.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer">
-                        {t.card_link}
-                      </a>
-                      {p.link2 && (
-                        <a href={p.link2} className="card-link" target="_blank" rel="noopener noreferrer" style={{color:'rgba(230,230,218,0.4)'}}>
-                          GitHub ↗
+                    {p.comingSoon ? (
+                      <span className="coming-soon-badge">Coming Soon</span>
+                    ) : (
+                      <div style={{display:'flex',gap:'1.25rem',alignItems:'center',flexWrap:'wrap'}}>
+                        <a href={p.link} className="card-link" target={p.link.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer">
+                          {t.card_link}
                         </a>
-                      )}
-                    </div>
+                        {p.link2 && (
+                          <a href={p.link2} className="card-link" target="_blank" rel="noopener noreferrer" style={{color:'rgba(230,230,218,0.4)'}}>
+                            GitHub ↗
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
